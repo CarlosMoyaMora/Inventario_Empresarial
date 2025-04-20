@@ -57,7 +57,7 @@ def menu_opciones():
 
 ### Aqui se va a Realizar la Ejecucion de el Codigo.
 
-if __name__ == '__inventaro_empresa__':
+if __name__ == '__inventaio__':
     print('Bienvenido al sistema de Gestion de Ventas')
 
 
