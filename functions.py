@@ -10,3 +10,7 @@ def salida_inv():
 
 def consulta():
     pass
+
+
+def entrada_inv():
+    
