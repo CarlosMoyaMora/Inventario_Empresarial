@@ -5,7 +5,7 @@
 """
 import os
 
-from functions_file import 
+from functions import consulta
 
 
 
@@ -13,7 +13,7 @@ from functions_file import
 
 def menu_opciones():
     while True:
-        print('____Bienvenido al menú del Sistema de Inventarios____')
+        print('\n Menú Principal: ')
         print('\n 1. Consultar Inventario: ')
         print('\n 2. Realizar una Salida del Inventario: ')
         print('\n 3. Realizar una entrada al Inventario: ')
@@ -58,8 +58,8 @@ def menu_opciones():
 
 ### Aqui se va a Realizar la Ejecucion de el Codigo.
 
-if __name__ == '__inventario__':
-    print('Bienvenido al sistema de Gestion de Ventas')
+if __name__ == '__main__':
+    print('____Bienvenido al menú del Sistema de Inventarios____')
 
 
     menu_opciones()        
