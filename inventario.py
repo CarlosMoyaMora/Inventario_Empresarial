@@ -5,8 +5,10 @@
 """
 import os
 
-from functions import consulta
+from functions import entrada_inv, guardar_ingreso
 
+def limpiar_pantalla():# esta funcion limpia la terminal en ejecucion.
+    os.system('cls' if os.name == 'nt' else 'clear')
 
 
 
@@ -31,11 +33,16 @@ def menu_opciones():
             print('Realizar una salida del Inventario')
         
         elif opcion == '3':
+            limpiar_pantalla()
             print('Realizar una entrada al Inventario')
+            entrada_inv(ingreso)
         
         elif opcion == '4':
-            print('Guardar cambios en CSV') 
-        
+            limpiar_pantalla()
+            print('\nGuardar cambios en CSV') 
+            guardar_ingreso(ingreso)
+            print('\nArticulos guardados con exito.')
+                        
         elif opcion == '5':
             print('Analisis de datos del Inventario')
         
@@ -43,6 +50,7 @@ def menu_opciones():
             print('Graficos de compras y ventas')
             
         elif opcion == '7':
+            limpiar_pantalla()
             print('Gracias por utilizar nuestro Sistema.')
             break
         
@@ -61,5 +69,5 @@ def menu_opciones():
 if __name__ == '__main__':
     print('____Bienvenido al menú del Sistema de Inventarios____')
 
-
+    ingreso = []
     menu_opciones()        
