@@ -27,4 +27,6 @@ def entrada_inv(nuevo_ingreso):
         ingreso = {'nombre': nombre_art, 'cantidad' : cantidad, 'precio' : precio, 'fecha' : fecha_ing} 
         
         nuevo_ingreso.append(ingreso)
+        
+        
        
