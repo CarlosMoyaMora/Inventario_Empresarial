@@ -10,12 +10,21 @@ def salida_inv():
 
 
 def consulta():
-    df = pd.read_csv('inventario ferreteria.csv', encoding='utf-8')
-    print(df)
-    volver = input('Desea volver al menu principal? : ')
-    if volver == 's':
-        break
-    elif volver == 'n':
+    df_inventario = pd.read_csv('ferreteria.csv', encoding='utf-8')
+    print(df_inventario)
+    consulta_articulo = input('Ingrese el nombre del articulo que desea consultar: ').upper()
+    if consulta_articulo in df_inventario:
+        datos_articulo = []
+        datos_articulo.append(df_inventario[[consulta_articulo]])
+        print(datos_articulo) 
+                
+        repetir = input('Desea consultar otro articulo? S/N : ').upper()
+        if repetir == 'S':
+            consulta()
+        elif repetir == 'N':
+            salida_inv()
+        else: 
+            print('Ingrese un numero correcto')
         
     
 
@@ -24,15 +33,16 @@ def entrada_inv(lista_articulos):
     while True:    
         
         try:
-            nombre_art = input('Ingrese el nombre del Articulo: ')
+            nombre_art = input('Ingrese el nombre del Articulo: ').upper()
+            marca = input('ingrese la Marca del fabricante: ').upper()
             cantidad = int(input('Digite la cantidad que deseea ingresar al Sistema: '))
             precio = float(input('Ingrese el Valor del articulo: '))
-            fecha_ing = input('Ingrese la fecha del ingreso: ')
+            fecha_ing = input('Ingrese la fecha del ingreso AAAA/MM/DD: ')
         except ValueError:
                 print('El valor no es correcto, por favor intentelo nuevamente!')
                 continue    
             
-        ingreso = {'nombre': nombre_art, 'cantidad' : cantidad, 'precio' : precio, 'fecha' : fecha_ing} 
+        ingreso = {'NOMBRE': nombre_art,'MARCA': marca, 'CANTIDAD' : cantidad, 'PRECIO' : precio, 'FECHA' : fecha_ing} 
         
         lista_articulos.append(ingreso)
         
@@ -55,14 +65,14 @@ def guardar_ingreso(ingreso):
     if not ingreso:
         print('No hay ingresos que guardar en el CSV')
     else:
-        if os.path.exists('inventario ferreteria.csv'):
+        if os.path.exists('ferreteria.csv'):
             #si el archivo existe agrego Append  'A'
-            with open('inventario ferreteria.csv','a',newline='',encoding='utf-8') as archivo:
-                guardar = csv.DictWriter(archivo,fieldnames=['nombre','cantidad','precio','fecha'])
+            with open('ferreteria.csv','a',newline='',encoding='utf-8') as archivo:
+                guardar = csv.DictWriter(archivo,fieldnames=['NOMBRE','MARCA','CANTIDAD','PRECIO','FECHA'])
                 guardar.writerows(ingreso)        
         else: #Si no existe abro en modo escritura 'W'
-            with open('inventario ferreteria.csv','w',newline='',encoding='utf-8') as archivo:
-                guardar = csv.DictWriter(archivo,fieldnames=['nombre','cantidad','precio','fecha'])
+            with open('ferreteria.csv','w',newline='',encoding='utf-8') as archivo:
+                guardar = csv.DictWriter(archivo,fieldnames=['NOMBRE','MARCA','CANTIDAD','PRECIO','FECHA'])
                 guardar.writeheader()
                 guardar.writerows(ingreso)
                 
