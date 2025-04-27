@@ -5,7 +5,7 @@
 """
 import os
 
-from functions import entrada_inv, guardar_ingreso
+from functions import consulta , entrada_inv, guardar_ingreso
 
 def limpiar_pantalla():# esta funcion limpia la terminal en ejecucion.
     os.system('cls' if os.name == 'nt' else 'clear')
@@ -28,6 +28,7 @@ def menu_opciones():
         
         if opcion == '1':
             print('Consulta de Inventario:')
+            consulta()
         
         elif opcion == '2':
             print('Realizar una salida del Inventario')

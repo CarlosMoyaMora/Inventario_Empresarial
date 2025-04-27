@@ -1,5 +1,6 @@
 # aqui Creare las funciones y llamare las librerias que sean necesarias para que el Codigo sea Eficiente.
 import csv , os
+import pandas as pd
 
 def salida_inv():
     
@@ -9,7 +10,14 @@ def salida_inv():
 
 
 def consulta():
-    pass
+    df = pd.read_csv('inventario ferreteria.csv', encoding='utf-8')
+    print(df)
+    volver = input('Desea volver al menu principal? : ')
+    if volver == 's':
+        break
+    elif volver == 'n':
+        
+    
 
 
 def entrada_inv(lista_articulos):
@@ -47,13 +55,13 @@ def guardar_ingreso(ingreso):
     if not ingreso:
         print('No hay ingresos que guardar en el CSV')
     else:
-        if os.path.exists('inventario pulperia.csv'):
+        if os.path.exists('inventario ferreteria.csv'):
             #si el archivo existe agrego Append  'A'
-            with open('inventario pulperia.csv','a',newline='',encoding='utf-8') as archivo:
+            with open('inventario ferreteria.csv','a',newline='',encoding='utf-8') as archivo:
                 guardar = csv.DictWriter(archivo,fieldnames=['nombre','cantidad','precio','fecha'])
                 guardar.writerows(ingreso)        
         else: #Si no existe abro en modo escritura 'W'
-            with open('inventario pulperia.csv','w',newline='',encoding='utf-8') as archivo:
+            with open('inventario ferreteria.csv','w',newline='',encoding='utf-8') as archivo:
                 guardar = csv.DictWriter(archivo,fieldnames=['nombre','cantidad','precio','fecha'])
                 guardar.writeheader()
                 guardar.writerows(ingreso)
