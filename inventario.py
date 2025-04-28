@@ -5,52 +5,52 @@
 """
 import os
 
-from functions import consulta , entrada_inv, guardar_ingreso
+from functions import consulta , entrada_inv, guardar_ingreso, salida_inv
 
 def limpiar_pantalla():# esta funcion limpia la terminal en ejecucion.
     os.system('cls' if os.name == 'nt' else 'clear')
 
 
 
-
-def menu_opciones():
+def menu_opciones(): # Menu de opciones que le mostramos al usuario.
+    limpiar_pantalla()
     while True:
+        
         print('\n Menú Principal: ')
         print('\n 1. Consultar Inventario: ')
         print('\n 2. Realizar una Salida del Inventario: ')
         print('\n 3. Realizar una entrada al Inventario: ')
         print('\n 4. Guardar los Cambios en el archivo CSV: ')
-        print('\n 5. Analizar datos')
-        print('\n 6. Ver graficos de compras y ventas')
-        print('\n 7. Salir')
+        print('\n 5. Datos importantes sobre el inventario: ')
+        print('\n 6. Salir')
         
         opcion = input(f'\nIngrese el numero de la opcion que desee Realizar: ')
         
         if opcion == '1':
+            limpiar_pantalla()
             print('Consulta de Inventario:')
             consulta()
         
         elif opcion == '2':
+            limpiar_pantalla()
             print('Realizar una salida del Inventario')
+            salida_inv(modificacion)
         
         elif opcion == '3':
             limpiar_pantalla()
             print('Realizar una entrada al Inventario')
-            entrada_inv(ingreso)
+            entrada_inv(modificacion)
         
         elif opcion == '4':
             limpiar_pantalla()
             print('\nGuardar cambios en CSV') 
-            guardar_ingreso(ingreso)
+            guardar_ingreso(modificacion)
             print('\nArticulos guardados con exito.')
-                        
+        
         elif opcion == '5':
-            print('Analisis de datos del Inventario')
+            print('Estos son algunos de los datos importantes del inventario')                
         
         elif opcion == '6':
-            print('Graficos de compras y ventas')
-            
-        elif opcion == '7':
             limpiar_pantalla()
             print('Gracias por utilizar nuestro Sistema.')
             break
@@ -70,5 +70,5 @@ def menu_opciones():
 if __name__ == '__main__':
     print('____Bienvenido al menú del Sistema de Inventarios____')
 
-    ingreso = []
+    modificacion = []
     menu_opciones()        
