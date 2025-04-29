@@ -5,7 +5,7 @@
 """
 import os
 
-from functions import consulta , entrada_inv, guardar_ingreso, salida_inv
+from functions import consulta , entrada_inv, guardar_ingreso, salida_inv, analizis_inv
 
 def limpiar_pantalla():# esta funcion limpia la terminal en ejecucion.
     os.system('cls' if os.name == 'nt' else 'clear')
@@ -48,7 +48,9 @@ def menu_opciones(): # Menu de opciones que le mostramos al usuario.
             print('\nArticulos guardados con exito.')
         
         elif opcion == '5':
+            limpiar_pantalla()
             print('Estos son algunos de los datos importantes del inventario')                
+            analizis_inv()
         
         elif opcion == '6':
             limpiar_pantalla()

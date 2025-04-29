@@ -129,3 +129,6 @@ def guardar_ingreso(modificacion): # me permite cuardar los datos que se almacen
         modificacion = []
         print('Datos guardados exitosamente!') 
         
+def analizis_inv():
+    df_inv = pd.read_csv('ferreteria.csv', encoding='utf-8')
+    df_inv = 
