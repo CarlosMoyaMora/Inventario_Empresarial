@@ -130,5 +130,19 @@ def guardar_ingreso(modificacion): # me permite cuardar los datos que se almacen
         print('Datos guardados exitosamente!') 
         
 def analizis_inv():
-    df_inv = pd.read_csv('ferreteria.csv', encoding='utf-8')
-    df_inv = 
+    while True:
+    
+        df_inv = pd.read_csv('ferreteria.csv', encoding='utf-8')
+        stock_max = df_inv[['CANTIDAD'].max()]
+        stock_min = df_inv['CANTIDAD'].min()
+        print(stock_max) 
+
+        salir = input('Para salir digite 1: ')
+        
+        if salir == '1':
+            break
+        
+        else: 
+            print('Digite un valor correcto')
+    
+    

@@ -51,6 +51,7 @@ def menu_opciones(): # Menu de opciones que le mostramos al usuario.
             limpiar_pantalla()
             print('Estos son algunos de los datos importantes del inventario')                
             analizis_inv()
+            limpiar_pantalla()
         
         elif opcion == '6':
             limpiar_pantalla()
