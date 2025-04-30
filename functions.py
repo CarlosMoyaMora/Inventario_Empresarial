@@ -19,6 +19,7 @@ def consulta(): # esta funcion me ayuda a consultar lo que hay en el archivo csv
         
         print('\n', df_inventario)
         
+        #Consultamos por un articulo en especifico que estemos buscando
         consulta_nombre = str(input('\nIngrese el nombre del articulo que desea consultar: ').upper())
         if consulta_nombre in df_inventario['NOMBRE'].values:
             articulo = df_inventario[df_inventario['NOMBRE'] == consulta_nombre ]
@@ -27,6 +28,7 @@ def consulta(): # esta funcion me ayuda a consultar lo que hay en el archivo csv
         else:
             ('El articulo no esta en el inventario.')    
         
+        #codigo que nos da la opcion de salir o repetir
         repetir = input('\nDesea consultar otro articulo? S/N : ').upper()
         if repetir == 'S':
             consulta()
@@ -47,7 +49,7 @@ def salida_inv():
     
     print(df_inventario)
     
-    while True:
+    while True: 
         try:
             nombre_art = input('Ingrese el nombre del Articulo: ').upper()
             marca = input('ingrese la Marca del fabricante: ').upper()
@@ -57,12 +59,14 @@ def salida_inv():
             print('error: ingrese una opcion valida: ')    
             continue
         
+        # toma el nombre ingresado y en caso de estar  en el inventario nos 
         if nombre_art in df_inventario['NOMBRE'].values:
-           df_inventario.loc[df_inventario['NOMBRE']==nombre_art,'CANTIDAD'] -= cantidad
+           df_inventario.loc[df_inventario['NOMBRE']==nombre_art,'CANTIDAD'] -= cantidad# resta la cantidad ingresada
         
         else:
             print('\nEl Articulo no se encuentra en sistema: ')
         
+        # almacena directamente la nueva cantidad de los articulos
         df_inventario.to_csv('ferreteria.csv')
         print(df_inventario)
 
@@ -107,14 +111,14 @@ def entrada_inv(lista_articulos): # me permite crear una entrada al inventario c
                 print('El valor no es correcto, por favor intentelo nuevamente!')
                 continue    
         
-        if nombre_art in df_inventario['NOMBRE'].values:
-            df_inventario.loc[df_inventario['NOMBRE']==nombre_art,'CANTIDAD'] += cantidad
+        #tomamos el nombre ingresado y validamos si se encuentra en el inventario
+        if nombre_art in df_inventario['NOMBRE'].values: 
+            df_inventario.loc[df_inventario['NOMBRE']==nombre_art,'CANTIDAD'] += cantidad #si está en el inventario sumamos la cantidad a la ya existente
+            df_inventario.to_csv('ferreteria.csv') # guardamos la modificacion en el archivo csv
+            print(df_inventario)
+            print('\nInventario Actualizado. ')
         
-        else:    
-            modificacion = {'NOMBRE': nombre_art,'MARCA': marca, 'CANTIDAD' : cantidad, 'PRECIO' : precio} 
-            
-            lista_articulos.append(modificacion)# almacena los datos en un diccionario 
-            
+            # damos la opcion de repetir
             repetir = input('Desea hacer otro ingreso? s/n? : ').upper() # damos la opcion de continuar o salir
             
             if repetir == 'S':
@@ -125,8 +129,26 @@ def entrada_inv(lista_articulos): # me permite crear una entrada al inventario c
                 break
             else: 
                 print('Ingrese una letra correcta, s/n: ')
-    
-    print(modificacion)            
+
+        #en caso de no coincidir el nombre con el brindado, hacemos el ingreso de un nuevo articulo a la variable
+        if nombre_art not in df_inventario['NOMBRE'].values[0]: 
+            modificacion = {'NOMBRE': nombre_art, 'MARCA': marca, 'CANTIDAD':cantidad, 'PRECIO':precio}
+            
+            lista_articulos.append(modificacion)
+            
+            print(modificacion)
+            print('\nNo olvides guardar los datos en el menu principal')
+            
+            repetir = input('Desea hacer otro ingreso? s/n? : ').upper() # damos la opcion de continuar o salir
+            if repetir == 'S':
+                print('\n---Ingresando otro articulo---')
+            
+            elif repetir == 'N':
+                print('Volviendo al menu principal')
+                break
+            else: 
+                print('Ingrese una letra correcta, s/n: ')       
+                            
         
         
 
@@ -149,7 +171,10 @@ def guardar_ingreso(modificacion): # me permite cuardar los datos que se almacen
         modificacion = []
         print('Datos guardados exitosamente!') 
         
-def analizis_inv():
+
+
+
+def analizis_inv(): # utilizando pandas me permite ver algunos datos que pueden ser de relevancia para el usuario.
     while True:
     
         df_inv = pd.read_csv('ferreteria.csv', encoding='utf-8')
