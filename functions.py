@@ -78,7 +78,7 @@ def salida_inv():
             print('\n---Salida de otro articulo---')
         
         elif repetir == 'N':
-            print('Volviendo al menu principal')
+            print('Volviendo al menú principal')
             break
         else: 
             print('Ingrese una letra correcta, s/n: ')  
@@ -104,7 +104,7 @@ def entrada_inv(lista_articulos): # me permite crear una entrada al inventario c
         try: # solicito los datos que el usuario quiere ingresar al sistema.
             nombre_art = input('Ingrese el nombre del Articulo: ').upper()
             marca = input('ingrese la Marca del fabricante: ').upper()
-            cantidad = int(input('Digite la cantidad que deseea ingresar al Sistema: '))
+            cantidad = int(input('Digite la cantidad que desea ingresar al Sistema: '))
             precio = float(input('Ingrese el Valor del articulo en colones: '))
             
         except ValueError:
@@ -125,7 +125,7 @@ def entrada_inv(lista_articulos): # me permite crear una entrada al inventario c
                 print('\n---Ingresando otro articulo---')
             
             elif repetir == 'N':
-                print('Volviendo al menu principal')
+                print('Volviendo al menú principal')
                 break
             else: 
                 print('Ingrese una letra correcta, s/n: ')
@@ -137,14 +137,14 @@ def entrada_inv(lista_articulos): # me permite crear una entrada al inventario c
             lista_articulos.append(modificacion)
             
             print(modificacion)
-            print('\nNo olvides guardar los datos en el menu principal')
+            print('\nNo olvides guardar los datos en el menú principal')# en este metodo se necesita usar el guardado del menú principal
             
             repetir = input('Desea hacer otro ingreso? s/n? : ').upper() # damos la opcion de continuar o salir
             if repetir == 'S':
                 print('\n---Ingresando otro articulo---')
             
             elif repetir == 'N':
-                print('Volviendo al menu principal')
+                print('Volviendo al menú principal')
                 break
             else: 
                 print('Ingrese una letra correcta, s/n: ')       

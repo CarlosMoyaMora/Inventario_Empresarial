@@ -3,9 +3,12 @@
     Año: 2025
     Versón: 0.1
 """
+
+### Import necesarios para la ejecucion del programa
 import os
 
-from functions import consulta , entrada_inv, guardar_ingreso, salida_inv, analizis_inv
+# nos llama las Funciones de la pagina Functions para poder llamarlas al momento de ser requieridas.
+from functions import consulta , entrada_inv, guardar_ingreso, salida_inv, analizis_inv 
 
 def limpiar_pantalla():# esta funcion limpia la terminal en ejecucion.
     os.system('cls' if os.name == 'nt' else 'clear')
