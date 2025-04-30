@@ -62,12 +62,6 @@ def menu_opciones(): # Menu de opciones que le mostramos al usuario.
             print('Opcion no Valida, Ingrese un Numero Valido')          
                     
         
-        
-        
-        
-        
-        
-
 ### Aqui se va a Realizar la Ejecucion de el Codigo.
 
 if __name__ == '__main__':
