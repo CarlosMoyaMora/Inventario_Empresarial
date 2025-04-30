@@ -34,7 +34,7 @@ def menu_opciones(): # Menu de opciones que le mostramos al usuario.
         elif opcion == '2':
             limpiar_pantalla()
             print('Realizar una salida del Inventario')
-            salida_inv(modificacion)
+            salida_inv()
         
         elif opcion == '3':
             limpiar_pantalla()

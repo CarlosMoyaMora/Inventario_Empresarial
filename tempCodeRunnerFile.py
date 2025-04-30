@@ -1,1 +1,1 @@
-6
+df_inventario.loc[df_inventario['CANTIDAD']==nombre_art,'CANTIDAD'] -= cantidad

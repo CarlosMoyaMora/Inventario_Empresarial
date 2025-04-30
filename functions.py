@@ -37,7 +37,7 @@ def consulta(): # esta funcion me ayuda a consultar lo que hay en el archivo csv
             
 
 
-def salida_inv(lista_articulos):
+def salida_inv():
     df_inventario = pd.read_csv('ferreteria.csv', encoding='utf-8')
     
     pd.set_option('display.max_rows', None)  # Para mostrar todas las filas
@@ -51,16 +51,22 @@ def salida_inv(lista_articulos):
         try:
             nombre_art = input('Ingrese el nombre del Articulo: ').upper()
             marca = input('ingrese la Marca del fabricante: ').upper()
-            cantidad = int(input('Digite la cantidad que deseea ingresar al Sistema: '))
-            precio = float(input('Ingrese el Valor del articulo: '))
-            fecha_ing = input('Ingrese la fecha del ingreso AAAA/MM/DD: ')
+            cantidad = int(input('Digite la cantidad que deseea sacar del Sistema: '))
+            
         except ValueError:
             print('error: ingrese una opcion valida: ')    
             continue
         
-        modificacion = {'NOMBRE': nombre_art,'MARCA': marca, 'CANTIDAD' : cantidad, 'PRECIO' : precio, 'FECHA' : fecha_ing}
+        if nombre_art in df_inventario['NOMBRE'].values:
+           df_inventario.loc[df_inventario['NOMBRE']==nombre_art,'CANTIDAD'] -= cantidad
         
-        lista_articulos.append(modificacion)
+        else:
+            print('\nEl Articulo no se encuentra en sistema: ')
+        
+        df_inventario.to_csv('ferreteria.csv')
+        print(df_inventario)
+
+        print('\nCambios guardados con exito.')
         
         repetir = input('Desea hacer otra Salida? s/n? : ').upper() # damos la opcion de continuar o salir
         
@@ -75,36 +81,50 @@ def salida_inv(lista_articulos):
         
         
         
-    print(modificacion)
+    print(df_inventario)
          
        
 def entrada_inv(lista_articulos): # me permite crear una entrada al inventario con lo que se desee ingresar.
+    
+    df_inventario = pd.read_csv('ferreteria.csv', encoding='utf-8')
+    
+    pd.set_option('display.max_rows', None)  # Para mostrar todas las filas
+    pd.set_option('display.max_columns', None)  # Para mostrar todas las columnas
+    pd.set_option('display.width', None)  # Para no limitar el ancho
+    pd.set_option('display.max_colwidth', None)  # Para no truncar el texto de las columnas
+    
+    print(df_inventario)
+    
     while True:    
         
         try: # solicito los datos que el usuario quiere ingresar al sistema.
             nombre_art = input('Ingrese el nombre del Articulo: ').upper()
             marca = input('ingrese la Marca del fabricante: ').upper()
             cantidad = int(input('Digite la cantidad que deseea ingresar al Sistema: '))
-            precio = float(input('Ingrese el Valor del articulo: '))
-            fecha_ing = input('Ingrese la fecha del ingreso AAAA/MM/DD: ')
+            precio = float(input('Ingrese el Valor del articulo en colones: '))
+            
         except ValueError:
                 print('El valor no es correcto, por favor intentelo nuevamente!')
                 continue    
+        
+        if nombre_art in df_inventario['NOMBRE'].values:
+            df_inventario.loc[df_inventario['NOMBRE']==nombre_art,'CANTIDAD'] += cantidad
+        
+        else:    
+            modificacion = {'NOMBRE': nombre_art,'MARCA': marca, 'CANTIDAD' : cantidad, 'PRECIO' : precio} 
             
-        modificacion = {'NOMBRE': nombre_art,'MARCA': marca, 'CANTIDAD' : cantidad, 'PRECIO' : precio, 'FECHA' : fecha_ing} 
-        
-        lista_articulos.append(modificacion)# almacena los datos en un diccionario 
-        
-        repetir = input('Desea hacer otro ingreso? s/n? : ').upper() # damos la opcion de continuar o salir
-        
-        if repetir == 'S':
-            print('\n---Ingresando otro articulo---')
-        
-        elif repetir == 'N':
-            print('Volviendo al menu principal')
-            break
-        else: 
-            print('Ingrese una letra correcta, s/n: ')
+            lista_articulos.append(modificacion)# almacena los datos en un diccionario 
+            
+            repetir = input('Desea hacer otro ingreso? s/n? : ').upper() # damos la opcion de continuar o salir
+            
+            if repetir == 'S':
+                print('\n---Ingresando otro articulo---')
+            
+            elif repetir == 'N':
+                print('Volviendo al menu principal')
+                break
+            else: 
+                print('Ingrese una letra correcta, s/n: ')
     
     print(modificacion)            
         
@@ -117,11 +137,11 @@ def guardar_ingreso(modificacion): # me permite cuardar los datos que se almacen
         if os.path.exists('ferreteria.csv'):
             #si el archivo existe agrego Append  'A'
             with open('ferreteria.csv','a',newline='',encoding='utf-8') as archivo:
-                guardar = csv.DictWriter(archivo,fieldnames=['NOMBRE','MARCA','CANTIDAD','PRECIO','FECHA'])
+                guardar = csv.DictWriter(archivo,fieldnames=['NOMBRE','MARCA','CANTIDAD','PRECIO'])
                 guardar.writerows(modificacion)        
         else: #Si no existe abro en modo escritura 'W'
             with open('ferreteria.csv','w',newline='',encoding='utf-8') as archivo:
-                guardar = csv.DictWriter(archivo,fieldnames=['NOMBRE','MARCA','CANTIDAD','PRECIO','FECHA'])
+                guardar = csv.DictWriter(archivo,fieldnames=['NOMBRE','MARCA','CANTIDAD','PRECIO'])
                 guardar.writeheader()
                 guardar.writerows(modificacion)
                 
@@ -133,16 +153,23 @@ def analizis_inv():
     while True:
     
         df_inv = pd.read_csv('ferreteria.csv', encoding='utf-8')
-        stock_max = df_inv[['CANTIDAD'].max()]
-        stock_min = df_inv['CANTIDAD'].min()
-        print(stock_max) 
+        
+        print('\nLos articulos con mayor stock son: ')
+        print('\n',df_inv[ df_inv['CANTIDAD'] == df_inv['CANTIDAD'].max()]) 
+        print('\nLos articulos con menor stock son: ') 
+        print('\n',df_inv[df_inv['CANTIDAD'] == df_inv['CANTIDAD'].min()])
+        print('\nLos articulos de mayor valor son: ')
+        print('\n',df_inv[df_inv['PRECIO'] == df_inv['PRECIO'].max()])
+        print('\nLos articulos de menor valor son: ')
+        print('\n',df_inv[df_inv['PRECIO'] == df_inv['PRECIO'].min()])
+        
 
-        salir = input('Para salir digite 1: ')
+        salir = input('\nPara salir digite 1: ')
         
         if salir == '1':
             break
         
         else: 
-            print('Digite un valor correcto')
+            print('\nDigite un valor correcto')
     
     
