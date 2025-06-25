@@ -4,7 +4,37 @@ import pandas as pd
 
 
 
-
+def user_contra(login):
+        if os.path.exists('usuarios.csv'):
+            #si el archivo existe agrego Append  'A'
+            with open('ferreteria.csv','a',newline='',encoding='utf-8') as archivo:
+                guardar = csv.DictWriter(archivo,fieldnames=['USUARIO','CONTRASEÑA'])
+                guardar.writerows(login)        
+        else: #Si no existe abro en modo escritura 'W'
+            with open('ferreteria.csv','w',newline='',encoding='utf-8') as archivo:
+                    guardar = csv.DictWriter(archivo,fieldnames=['USUARIO','CONTRASEÑA'])
+                    guardar.writeheader()
+                    guardar.writerows(login)
+                
+                
+                
+                
+"""while True:
+        try:
+            print('\n1. Crear un nuevo usuario. ')
+            print('\n2. Cambiar contraseña. ')
+            
+            opcion_usuario = input('Ingrese el numero de la opción que desee: ')
+            
+            if opcion_usuario == '1':
+                print('El usuario debe tener solo letras')
+                user = input('\nIngrese su usuario:')
+                
+                print('La Contraseña debe ser de al menos 6 Caracteres')
+                pasword = input('\nIngrese la contraseña: ') 
+        except ValueError:
+                print('Error: ingrese los datos correctamente. ')
+                continue"""
 
 
 def consulta(): # esta funcion me ayuda a consultar lo que hay en el archivo csv donde guardo mis datos.
