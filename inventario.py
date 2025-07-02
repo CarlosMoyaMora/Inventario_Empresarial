@@ -61,7 +61,7 @@ def menu_opciones(): # Menu de opciones que le mostramos al usuario.
         elif opcion == '6':
             limpiar_pantalla()
             print('Configuración de Usuario y contraseña.')
-            user_contra()
+            user_contra(login)
             limpiar_pantalla()
         
         

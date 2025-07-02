@@ -5,17 +5,20 @@ import pandas as pd
 def menu_login():
 
     while True:
-        login_df = pd.read_csv('usuarios.csv', encoding='utf-8')
+        login_df = pd.read_csv('usuarios.csv')
         
         usuario = input('\nEscriba el nombre de usuario: ')
         contraseña = input('\nEscriba la contraseña: ')
+        
+        match = login_df[(login_df['USUARIO'] == usuario) & (login_df['CONTRASEÑA'] == contraseña)]    
+        if not match.empty:
+            print("Inicio de sesión exitoso...!")
             
-        if usuario and contraseña in login_df:
-            continue
-            
+            break
+                
         else:
             print('El usuario o la contraseña no son correctos.')
-            
+                
 
 def user_contra(login):
     
@@ -23,15 +26,19 @@ def user_contra(login):
         usuario = input('\nEscriba el nombre de usuario: ')
         contraseña = input('\nEscriba la contraseña: ')
         
-        login{"USUARIO": usuario, "CONTRASEÑA": contraseña}
+        user_ingresado = {"USUARIO": usuario, "CONTRASEÑA": contraseña}
+        
+        login.append(user_ingresado)
+        
+        
     
         if os.path.exists('usuarios.csv'):
             #si el archivo existe agrego Append  'A'
-            with open('ferreteria.csv','a',newline='',encoding='utf-8') as archivo:
+            with open('usuarios.csv','a',newline='',encoding='utf-8') as archivo:
                 guardar = csv.DictWriter(archivo,fieldnames=['USUARIO','CONTRASEÑA'])
                 guardar.writerows(login)        
         else: #Si no existe abro en modo escritura 'W'
-            with open('ferreteria.csv','w',newline='',encoding='utf-8') as archivo:
+            with open('usuarios.csv','w',newline='',encoding='utf-8') as archivo:
                     guardar = csv.DictWriter(archivo,fieldnames=['USUARIO','CONTRASEÑA'])
                     guardar.writeheader()
                     guardar.writerows(login)
