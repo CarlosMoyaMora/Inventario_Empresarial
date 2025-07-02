@@ -2,9 +2,29 @@
 import csv , os
 import pandas as pd
 
+def menu_login():
 
+    while True:
+        login_df = pd.read_csv('usuarios.csv', encoding='utf-8')
+        
+        usuario = input('\nEscriba el nombre de usuario: ')
+        contraseña = input('\nEscriba la contraseña: ')
+            
+        if usuario and contraseña in login_df:
+            continue
+            
+        else:
+            print('El usuario o la contraseña no son correctos.')
+            
 
 def user_contra(login):
+    
+    while True:
+        usuario = input('\nEscriba el nombre de usuario: ')
+        contraseña = input('\nEscriba la contraseña: ')
+        
+        login{"USUARIO": usuario, "CONTRASEÑA": contraseña}
+    
         if os.path.exists('usuarios.csv'):
             #si el archivo existe agrego Append  'A'
             with open('ferreteria.csv','a',newline='',encoding='utf-8') as archivo:

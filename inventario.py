@@ -8,14 +8,12 @@
 import os
 
 # nos llama las Funciones de la pagina Functions para poder llamarlas al momento de ser requieridas.
-from functions import consulta , entrada_inv, guardar_ingreso, salida_inv, analizis_inv, user_contra 
+from functions import *
 
 def limpiar_pantalla():# esta funcion limpia la terminal en ejecucion.
     os.system('cls' if os.name == 'nt' else 'clear')
 
-def menu_login():
-    usuario = input('\nEscriba el nombre de usuario: ')
-    contraseña = input('\nEscriba la contraseña: ')
+
     
 
 def menu_opciones(): # Menu de opciones que le mostramos al usuario.
@@ -81,7 +79,7 @@ def menu_opciones(): # Menu de opciones que le mostramos al usuario.
 if __name__ == '__main__':
     print('____Bienvenido al menú del Sistema de Inventarios____')
     
-    
+    login= []
     modificacion = []
     menu_login()
     menu_opciones()        
