@@ -1,5 +1,6 @@
 # aqui Creare las funciones y llamare las librerias que sean necesarias para que el Codigo sea Eficiente.
-import csv , os
+import csv , os, emoji
+from colorama import init,Fore,Back
 import pandas as pd
 
 def menu_login():

@@ -5,7 +5,10 @@
 """
 
 ### Import necesarios para la ejecucion del programa
-import os
+import os, emoji
+
+
+from colorama import init,Fore,Back
 
 # nos llama las Funciones de la pagina Functions para poder llamarlas al momento de ser requieridas.
 from functions import *
@@ -18,22 +21,23 @@ def limpiar_pantalla():# esta funcion limpia la terminal en ejecucion.
 
 def menu_opciones(): # Menu de opciones que le mostramos al usuario.
     limpiar_pantalla()
+    init()
     while True:
         
-        print('\n Menú Principal: ')
-        print('\n 1. Consultar Inventario: ')
-        print('\n 2. Realizar una Salida del Inventario: ')
-        print('\n 3. Realizar una entrada al Inventario: ')
-        print('\n 4. Guardar los Cambios en el archivo CSV: ')
-        print('\n 5. Datos importantes sobre el inventario: ')
-        print('\n 6. Usuario y contraseña')
-        print('\n 7. Salir')
+        print(Fore.LIGHTGREEN_EX+emoji.emojize('\n _________________📚 Menú Principal 📚_________________'))
+        print(Fore.LIGHTGREEN_EX+emoji.emojize('\n 1️⃣ . 📋 Consultar Inventario: '))
+        print(Fore.LIGHTGREEN_EX+emoji.emojize('\n 2️⃣ . 📤 Realizar una Salida del Inventario: '))
+        print(Fore.LIGHTGREEN_EX+emoji.emojize('\n 3️⃣ . 📥 Realizar una entrada al Inventario: '))
+        print(Fore.LIGHTGREEN_EX+emoji.emojize('\n 4️⃣ . 💾 Guardar los Cambios en el archivo CSV: '))
+        print(Fore.LIGHTGREEN_EX+emoji.emojize('\n 5️⃣ . 📈 Datos importantes sobre el inventario: '))
+        print(Fore.LIGHTGREEN_EX+emoji.emojize('\n 6️⃣ . 🔐 Usuario y contraseña: '))
+        print(Fore.LIGHTGREEN_EX+emoji.emojize('\n 7️⃣ . 🔚 Salir '))
         
-        opcion = input(f'\nIngrese el numero de la opcion que desee Realizar: ')
+        opcion = input(Fore.LIGHTGREEN_EX+emoji.emojize(f'\n #️⃣  Ingrese el numero de la opcion que desee Realizar: '))
         
         if opcion == '1':
             limpiar_pantalla()
-            print('Consulta de Inventario:')
+            print(Back.YELLOW+Fore.RED+emoji.emojize('Consulta de Inventario:'))
             consulta()
         
         elif opcion == '2':
@@ -54,9 +58,8 @@ def menu_opciones(): # Menu de opciones que le mostramos al usuario.
         
         elif opcion == '5':
             limpiar_pantalla()
-            print('Estos son algunos de los datos importantes del inventario')                
+            print('📈Estos son algunos de los datos importantes del inventario')                
             analizis_inv()
-            limpiar_pantalla()
         
         elif opcion == '6':
             limpiar_pantalla()
@@ -81,5 +84,5 @@ if __name__ == '__main__':
     
     login= []
     modificacion = []
-    menu_login()
+    #menu_login()
     menu_opciones()        
