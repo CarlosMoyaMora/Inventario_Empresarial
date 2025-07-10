@@ -13,8 +13,6 @@ from colorama import init,Fore,Back
 # nos llama las Funciones de la pagina Functions para poder llamarlas al momento de ser requieridas.
 from functions import *
 
-def limpiar_pantalla():# esta funcion limpia la terminal en ejecucion.
-    os.system('cls' if os.name == 'nt' else 'clear')
 
 
     
@@ -31,6 +29,7 @@ def menu_opciones(): # Menu de opciones que le mostramos al usuario.
         print(Fore.LIGHTGREEN_EX+emoji.emojize('\n 4️⃣ . 💾 Guardar los Cambios en el archivo CSV: '))
         print(Fore.LIGHTGREEN_EX+emoji.emojize('\n 5️⃣ . 📈 Datos importantes sobre el inventario: '))
         print(Fore.LIGHTGREEN_EX+emoji.emojize('\n 6️⃣ . 🔐 Usuario y contraseña: '))
+        print(Fore.LIGHTGREEN_EX+emoji.emojize('\n 8️⃣ . ⚙️ Configuración del Sistema: '))
         print(Fore.LIGHTGREEN_EX+emoji.emojize('\n 7️⃣ . 🔚 Salir '))
         
         opcion = input(Fore.LIGHTGREEN_EX+emoji.emojize(f'\n #️⃣  Ingrese el numero de la opcion que desee Realizar: '))
@@ -63,14 +62,19 @@ def menu_opciones(): # Menu de opciones que le mostramos al usuario.
         
         elif opcion == '6':
             limpiar_pantalla()
-            print('Configuración de Usuario y contraseña.')
-            user_contra(login)
+            print(Fore.LIGHTGREEN_EX+emoji.emojize('🔧 Configuración de Usuario y contraseña.'))
+            config_usuario(login)
             limpiar_pantalla()
         
         
         elif opcion == '7':
             limpiar_pantalla()
             print('Gracias por utilizar nuestro Sistema.')
+            break
+        
+        elif opcion == '8':
+            limpiar_pantalla()
+            print('Bienvenido a la configuración del sistema.')
             break
         
         else: 
@@ -82,7 +86,7 @@ def menu_opciones(): # Menu de opciones que le mostramos al usuario.
 if __name__ == '__main__':
     print('____Bienvenido al menú del Sistema de Inventarios____')
     
-    login= []
-    modificacion = []
+    login= [] #lista donde almaceno las modificaciones que realizo a los usuarios
+    modificacion = [] #lista que almacena las modificaciones que le realizo al inventario
     #menu_login()
     menu_opciones()        

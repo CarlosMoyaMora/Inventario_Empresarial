@@ -1,9 +1,14 @@
 # aqui Creare las funciones y llamare las librerias que sean necesarias para que el Codigo sea Eficiente.
 import csv , os, emoji
+import tkinter as tk
 from colorama import init,Fore,Back
 import pandas as pd
 
-def menu_login():
+def limpiar_pantalla():# esta funcion limpia la terminal en ejecucion.
+    os.system('cls' if os.name == 'nt' else 'clear')
+
+
+def menu_login(): #Menú de inicio de sesion sin interfaz
 
     while True:
         login_df = pd.read_csv('usuarios.csv')
@@ -21,48 +26,100 @@ def menu_login():
             print('El usuario o la contraseña no son correctos.')
                 
 
-def user_contra(login):
+  
+  
+  
+                      
+                
+                
+def config_usuario(login): #Pendiente ......
     
+    df_usuarios = pd.read_csv("usuarios.csv")       #pasamos la base de datos de Usuario a un Dataframe    
+
     while True:
-        usuario = input('\nEscriba el nombre de usuario: ')
-        contraseña = input('\nEscriba la contraseña: ')
-        
-        user_ingresado = {"USUARIO": usuario, "CONTRASEÑA": contraseña}
-        
-        login.append(user_ingresado)
-        
-        
-    
-        if os.path.exists('usuarios.csv'):
-            #si el archivo existe agrego Append  'A'
-            with open('usuarios.csv','a',newline='',encoding='utf-8') as archivo:
-                guardar = csv.DictWriter(archivo,fieldnames=['USUARIO','CONTRASEÑA'])
-                guardar.writerows(login)        
-        else: #Si no existe abro en modo escritura 'W'
-            with open('usuarios.csv','w',newline='',encoding='utf-8') as archivo:
-                    guardar = csv.DictWriter(archivo,fieldnames=['USUARIO','CONTRASEÑA'])
-                    guardar.writeheader()
-                    guardar.writerows(login)
-                
-                
-                
-                
-"""while True:
         try:
-            print('\n1. Crear un nuevo usuario. ')
-            print('\n2. Cambiar contraseña. ')
+            print(Fore.LIGHTGREEN_EX+emoji.emojize('\n1️⃣  . Crear un nuevo usuario. '))
+            print(Fore.LIGHTGREEN_EX+emoji.emojize('\n2️⃣  . Cambiar contraseña.'))
+            print(Fore.LIGHTGREEN_EX+emoji.emojize('\n3️⃣  . Volver al menú principal. '))
             
-            opcion_usuario = input('Ingrese el numero de la opción que desee: ')
+           
+            
+            opcion_usuario = input(Fore.LIGHTGREEN_EX+emoji.emojize(f'\n#️⃣  Ingrese el numero de la opción que desee: '))
+            
+            limpiar_pantalla()
             
             if opcion_usuario == '1':
-                print('El usuario debe tener solo letras')
-                user = input('\nIngrese su usuario:')
                 
-                print('La Contraseña debe ser de al menos 6 Caracteres')
-                pasword = input('\nIngrese la contraseña: ') 
+                usuario_admin = str(input('\n🔹 Ingrese su usuario: '))
+                
+                contraseña_admin = str(input('\n🔹 Ingrese la contraseña: '))
+                
+                acceso_correcto = ((df_usuarios['USUARIO'] == usuario_admin) &  (df_usuarios['CONTRASEÑA']== contraseña_admin)).any()
+                
+                
+                if acceso_correcto and usuario_admin == 'Carlosmoya15':
+                    
+                    user_nuevo = str(input(Fore.LIGHTGREEN_EX+emoji.emojize('\n🔹 Ingrese nuevo usuario que quiere crear: ')))
+                    contra_nuevo = str(input(Fore.LIGHTGREEN_EX+emoji.emojize('\n🔹 Ingrese la contraseña del nuevo usuario')))
+                    
+                    nuevo_usuario = {'USUARIO': user_nuevo, 'CONTRASEÑA': contra_nuevo}
+                    
+                    nuevo_df = pd.DataFrame([nuevo_usuario])
+
+                    archivo_csv = 'usuarios.csv'
+
+                    
+                    if os.path.exists(archivo_csv):# Si el archivo ya existe, lo abrimos y agregamos
+                        df_usuarios = pd.read_csv(archivo_csv)
+                        df_usuarios = pd.concat([df_usuarios, nuevo_df], ignore_index=True)
+                    else:
+                        df_usuarios = nuevo_df
+
+                    
+                    df_usuarios.to_csv(archivo_csv, index=False)# Guardar CSV sin índice
+                    
+                    limpiar_pantalla()
+
+                    print(Fore.LIGHTGREEN_EX+emoji.emojize('\n✅  Usuario guardado exitosamente.'))
+                    
+                  
+                
+            elif opcion_usuario == '2':
+                
+                usuario = str(input(Fore.LIGHTGREEN_EX+emoji.emojize('\n🔹Escriba el nombre de usuario: ')))
+                contraseña = str(input(Fore.LIGHTGREEN_EX+emoji.emojize('\n🔹Escriba la contraseña: ')))
+                
+                
+                
+                if ((df_usuarios['USUARIO'] == usuario) & (df_usuarios['CONTRASEÑA'] == contraseña)).any():#Compara si los datos ingresados son iguales a los datos en el df.
+                    
+                    contraseña_nueva = input('Digite la nueva contraseña')
+                    
+                    df_usuarios.loc[df_usuarios['USUARIO']==usuario,'CONTRASEÑA'] = contraseña_nueva #cambia el valor de la contraseña en el dataframe
+                    
+                    df_usuarios.to_csv('usuarios.csv', index=False)#sobre escribe el df completo
+                    
+                    
+                    
+                    print(Fore.LIGHTGREEN_EX+emoji.emojize('\n✅Contraseña modificada exitosamente....')) 
+            
+            elif opcion_usuario == '3':
+                break
+                
+
+            else:
+                print(Fore.LIGHTGREEN_EX+emoji.emojize('❌ Usuario o contraseña no validos, Intentelo de nuevo '))     
+                
         except ValueError:
-                print('Error: ingrese los datos correctamente. ')
-                continue"""
+                print(Fore.LIGHTGREEN_EX+emoji.emojize('❌Error: ingrese los datos correctamente.❌ '))
+                continue
+
+
+
+
+
+
+
 
 
 def consulta(): # esta funcion me ayuda a consultar lo que hay en el archivo csv donde guardo mis datos.
@@ -97,6 +154,10 @@ def consulta(): # esta funcion me ayuda a consultar lo que hay en el archivo csv
             
 
 
+
+
+
+
 def salida_inv():
     df_inventario = pd.read_csv('ferreteria.csv', encoding='utf-8')
     
@@ -125,7 +186,7 @@ def salida_inv():
             print('\nEl Articulo no se encuentra en sistema: ')
         
         # almacena directamente la nueva cantidad de los articulos
-        df_inventario.to_csv('ferreteria.csv')
+        df_inventario.to_csv('ferreteria.csv', index=False)
         print(df_inventario)
 
         print('\nCambios guardados con exito.')
@@ -145,6 +206,11 @@ def salida_inv():
         
     print(df_inventario)
          
+
+
+
+
+
        
 def entrada_inv(lista_articulos): # me permite crear una entrada al inventario con lo que se desee ingresar.
     
@@ -172,7 +238,7 @@ def entrada_inv(lista_articulos): # me permite crear una entrada al inventario c
         #tomamos el nombre ingresado y validamos si se encuentra en el inventario
         if nombre_art in df_inventario['NOMBRE'].values: 
             df_inventario.loc[df_inventario['NOMBRE']==nombre_art,'CANTIDAD'] += cantidad #si está en el inventario sumamos la cantidad a la ya existente
-            df_inventario.to_csv('ferreteria.csv') # guardamos la modificacion en el archivo csv
+            df_inventario.to_csv('ferreteria.csv', index=False) # guardamos la modificacion en el archivo csv
             print(df_inventario)
             print('\nInventario Actualizado. ')
         
@@ -208,6 +274,10 @@ def entrada_inv(lista_articulos): # me permite crear una entrada al inventario c
                 print('Ingrese una letra correcta, s/n: ')       
                             
         
+ 
+ 
+ 
+ 
         
 
 def guardar_ingreso(modificacion): # me permite cuardar los datos que se almacenan en las listas ingreso y salida
@@ -229,6 +299,10 @@ def guardar_ingreso(modificacion): # me permite cuardar los datos que se almacen
         modificacion = []
         print('Datos guardados exitosamente!') 
         
+
+
+
+
 
 
 
