@@ -32,7 +32,7 @@ def menu_login(): #Menú de inicio de sesion sin interfaz
                       
                 
                 
-def config_usuario(login): #Pendiente ......
+def config_usuario(login): #Funcion que nos permite cambiar la contraseña de un usuario o crear uno nuevo si somos administradores ......
     
     df_usuarios = pd.read_csv("usuarios.csv")       #pasamos la base de datos de Usuario a un Dataframe    
 
@@ -159,6 +159,7 @@ def consulta(): # esta funcion me ayuda a consultar lo que hay en el archivo csv
 
 
 def salida_inv():
+    init()
     df_inventario = pd.read_csv('ferreteria.csv', encoding='utf-8')
     
     pd.set_option('display.max_rows', None)  # Para mostrar todas las filas
@@ -166,45 +167,54 @@ def salida_inv():
     pd.set_option('display.width', None)  # Para no limitar el ancho
     pd.set_option('display.max_colwidth', None)  # Para no truncar el texto de las columnas
     
-    print(df_inventario)
+    print(Fore.LIGHTRED_EX(df_inventario))
     
     while True: 
-        try:
-            nombre_art = input('Ingrese el nombre del Articulo: ').upper()
-            marca = input('ingrese la Marca del fabricante: ').upper()
-            cantidad = int(input('Digite la cantidad que deseea sacar del Sistema: '))
+        
+        print(Fore.LIGHTGREEN_EX+emoji.emojize('Para Hacer una Salida del Inventario ingrese el numero 1: '))
+        print(Fore.LIGHTGREEN_EX+emoji.emojize('Para Volver al Menú Principal ingrese el numero 2: '))
+        
+        accion = input((Fore.LIGHTGREEN_EX+emoji.emojize('Que desea hacer: ')))
+        
+        if accion == '1':
+            try:
+                nombre_art = input('Ingrese el nombre del Articulo: ').upper()
+                marca = input('ingrese la Marca del fabricante: ').upper()
+                cantidad = int(input('Digite la cantidad que deseea sacar del Sistema: '))
+                
+            except ValueError:
+                print('error: ingrese una opcion valida: ')    
+                continue
             
-        except ValueError:
-            print('error: ingrese una opcion valida: ')    
-            continue
-        
-        # toma el nombre ingresado y en caso de estar  en el inventario nos 
-        if nombre_art in df_inventario['NOMBRE'].values:
-           df_inventario.loc[df_inventario['NOMBRE']==nombre_art,'CANTIDAD'] -= cantidad# resta la cantidad ingresada
-        
-        else:
-            print('\nEl Articulo no se encuentra en sistema: ')
-        
-        # almacena directamente la nueva cantidad de los articulos
-        df_inventario.to_csv('ferreteria.csv', index=False)
-        print(df_inventario)
+            # toma el nombre ingresado y en caso de estar  en el inventario nos 
+            if nombre_art in df_inventario['NOMBRE'].values:
+                df_inventario.loc[df_inventario['NOMBRE']==nombre_art,'CANTIDAD'] -= cantidad# resta la cantidad ingresada
+                
+            else:
+                print('\nEl Articulo no se encuentra en sistema: ')
+                
+                # almacena directamente la nueva cantidad de los articulos
+                df_inventario.to_csv('ferreteria.csv', index=False)
+                print(df_inventario)
 
-        print('\nCambios guardados con exito.')
+            print('\nCambios guardados con exito.')
+            
+            repetir = input('Desea hacer otra Salida? s/n? : ').upper() # damos la opcion de continuar o salir
+            
+            if repetir == 'S':
+                print('\n---Salida de otro articulo---')
+            
+            elif repetir == 'N':
+                print('Volviendo al menú principal')
+                break
+            else: 
+                print('Ingrese una letra correcta, s/n: ')  
         
-        repetir = input('Desea hacer otra Salida? s/n? : ').upper() # damos la opcion de continuar o salir
-        
-        if repetir == 'S':
-            print('\n---Salida de otro articulo---')
-        
-        elif repetir == 'N':
-            print('Volviendo al menú principal')
-            break
-        else: 
-            print('Ingrese una letra correcta, s/n: ')  
-        
-        
-        
-    print(df_inventario)
+        elif accion == '2':
+            break     
+            
+            
+        print(df_inventario)
          
 
 

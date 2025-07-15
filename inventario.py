@@ -1,7 +1,7 @@
-""" Este es mi proyecto final para el curso de fundamentos de Python en la UNCA
+""" Este es mi proyecto final para el curso de Desarrollo de Softwere con Python en la UNCA
     Autor: Carlos Andrey Moya Mora
     Año: 2025
-    Versón: 0.1
+    Versón: 0.06
 """
 
 ### Import necesarios para la ejecucion del programa
@@ -22,7 +22,7 @@ def menu_opciones(): # Menu de opciones que le mostramos al usuario.
     init()
     while True:
         
-        print(Fore.LIGHTGREEN_EX+emoji.emojize('\n _________________📚 Menú Principal 📚_________________'))
+        print(Fore.LIGHTGREEN_EX+emoji.emojize('\n _________________📚 Menú Principal 📚_________________')) #prints con Emojis para una visualizacion mas agradable
         print(Fore.LIGHTGREEN_EX+emoji.emojize('\n 1️⃣ . 📋 Consultar Inventario: '))
         print(Fore.LIGHTGREEN_EX+emoji.emojize('\n 2️⃣ . 📤 Realizar una Salida del Inventario: '))
         print(Fore.LIGHTGREEN_EX+emoji.emojize('\n 3️⃣ . 📥 Realizar una entrada al Inventario: '))
@@ -34,30 +34,31 @@ def menu_opciones(): # Menu de opciones que le mostramos al usuario.
         
         opcion = input(Fore.LIGHTGREEN_EX+emoji.emojize(f'\n #️⃣  Ingrese el numero de la opcion que desee Realizar: '))
         
-        if opcion == '1':
+        if opcion == '1':# Condicionales que nos llevaran a cada una de las funciones del menú
             limpiar_pantalla()
-            print(Back.YELLOW+Fore.RED+emoji.emojize('Consulta de Inventario:'))
+            print(Fore.RED+emoji.emojize('Consulta de Inventario:'))
             consulta()
         
         elif opcion == '2':
             limpiar_pantalla()
-            print('Realizar una salida del Inventario')
+            print(Fore.RED+emoji.emojize('Realizar una salida del Inventario'))
             salida_inv()
         
         elif opcion == '3':
             limpiar_pantalla()
-            print('Realizar una entrada al Inventario')
+            print(Fore.RED+emoji.emojize('Realizar una entrada al Inventario'))
             entrada_inv(modificacion)
         
         elif opcion == '4':
             limpiar_pantalla()
-            print('\nGuardar cambios en CSV') 
+            print(Fore.RED+emoji.emojize('\nGuardar cambios en CSV'))
             guardar_ingreso(modificacion)
-            print('\nArticulos guardados con exito.')
+            print(Fore.RED+emoji.emojize('\nArticulos guardados con exito.'))
+            
         
         elif opcion == '5':
             limpiar_pantalla()
-            print('📈Estos son algunos de los datos importantes del inventario')                
+            print(Fore.RED+emoji.emojize('📈Estos son algunos de los datos importantes del inventario'))        
             analizis_inv()
         
         elif opcion == '6':
@@ -69,15 +70,17 @@ def menu_opciones(): # Menu de opciones que le mostramos al usuario.
         
         elif opcion == '7':
             limpiar_pantalla()
-            print('Gracias por utilizar nuestro Sistema.')
+            print(Fore.RED+emoji.emojize('Gracias por utilizar nuestro Sistema.'))
             break
         
         elif opcion == '8':
             limpiar_pantalla()
+            print(Fore.RED+emoji.emojize('Consulta de Inventario:'))
             print('Bienvenido a la configuración del sistema.')
             break
         
-        else: 
+        else:
+            print(Fore.RED+emoji.emojize('Consulta de Inventario:')) 
             print('Opcion no Valida, Ingrese un Numero Valido')          
                     
         
