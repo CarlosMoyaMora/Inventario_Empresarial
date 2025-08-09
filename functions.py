@@ -1,7 +1,7 @@
 # aqui Creare las funciones y llamare las librerias que sean necesarias para que el Codigo sea Eficiente.
 import csv , os, emoji
 import tkinter as tk
-from colorama import init,Fore,Back
+from colorama import init,Fore,Back, Style
 import pandas as pd
 
 def limpiar_pantalla():# esta funcion limpia la terminal en ejecucion.
@@ -159,31 +159,34 @@ def consulta(): # esta funcion me ayuda a consultar lo que hay en el archivo csv
 
 
 def salida_inv():
-    init()
-    df_inventario = pd.read_csv('ferreteria.csv', encoding='utf-8')
+    limpiar_pantalla()
+    
+    df_inventario = pd.read_csv('ferreteria.csv', encoding='utf-8')# convertimos el Csv del inventario en un DFrame de Pandas
     
     pd.set_option('display.max_rows', None)  # Para mostrar todas las filas
     pd.set_option('display.max_columns', None)  # Para mostrar todas las columnas
     pd.set_option('display.width', None)  # Para no limitar el ancho
     pd.set_option('display.max_colwidth', None)  # Para no truncar el texto de las columnas
     
-    print(Fore.LIGHTRED_EX(df_inventario))
+    print(Fore.LIGHTRED_EX + df_inventario.to_string() + Style.RESET_ALL)
     
-    while True: 
+    while True: #inicio del Bucle
         
-        print(Fore.LIGHTGREEN_EX+emoji.emojize('Para Hacer una Salida del Inventario ingrese el numero 1: '))
-        print(Fore.LIGHTGREEN_EX+emoji.emojize('Para Volver al Menú Principal ingrese el numero 2: '))
+        init() 
         
-        accion = input((Fore.LIGHTGREEN_EX+emoji.emojize('Que desea hacer: ')))
+        print(Fore.LIGHTGREEN_EX+emoji.emojize('\nPara Hacer una Salida del Inventario ingrese el numero 1: ') + Style.RESET_ALL)
+        print(Fore.LIGHTGREEN_EX+emoji.emojize('Para Volver al Menú Principal ingrese el numero 2: ') + Style.RESET_ALL)
+        
+        accion = input((Fore.LIGHTGREEN_EX+emoji.emojize('\nQue desea hacer: ')))
         
         if accion == '1':
             try:
-                nombre_art = input('Ingrese el nombre del Articulo: ').upper()
-                marca = input('ingrese la Marca del fabricante: ').upper()
-                cantidad = int(input('Digite la cantidad que deseea sacar del Sistema: '))
+                nombre_art = input((Fore.LIGHTGREEN_EX+emoji.emojize('\nIngrese el nombre del Articulo: '))).upper()
+                marca = input((Fore.LIGHTGREEN_EX+emoji.emojize('ingrese la Marca del fabricante: '))).upper()
+                cantidad = int(input((Fore.LIGHTGREEN_EX+emoji.emojize('Digite la cantidad que deseea sacar del Sistema: ')+ Style.RESET_ALL)))
                 
             except ValueError:
-                print('error: ingrese una opcion valida: ')    
+                print(Fore.LIGHTGREEN_EX+emoji.emojize('error: ingrese una opcion valida: ')+ Style.RESET_ALL)  
                 continue
             
             # toma el nombre ingresado y en caso de estar  en el inventario nos 
@@ -197,7 +200,7 @@ def salida_inv():
                 df_inventario.to_csv('ferreteria.csv', index=False)
                 print(df_inventario)
 
-            print('\nCambios guardados con exito.')
+            print(Fore.LIGHTGREEN_EX+emoji.emojize('\n💾 Cambios guardados con exito.'))
             
             repetir = input('Desea hacer otra Salida? s/n? : ').upper() # damos la opcion de continuar o salir
             
@@ -214,7 +217,7 @@ def salida_inv():
             break     
             
             
-        print(df_inventario)
+        print(Fore.LIGHTRED_EX + df_inventario.to_string() + Style.RESET_ALL)
          
 
 

@@ -18,8 +18,7 @@ from functions import *
     
 
 def menu_opciones(): # Menu de opciones que le mostramos al usuario.
-    limpiar_pantalla()
-    init()
+    
     while True:
         
         print(Fore.LIGHTGREEN_EX+emoji.emojize('\n _________________📚 Menú Principal 📚_________________')) #prints con Emojis para una visualizacion mas agradable
@@ -27,7 +26,7 @@ def menu_opciones(): # Menu de opciones que le mostramos al usuario.
         print(Fore.LIGHTGREEN_EX+emoji.emojize('\n 2️⃣ . 📤 Realizar una Salida del Inventario: '))
         print(Fore.LIGHTGREEN_EX+emoji.emojize('\n 3️⃣ . 📥 Realizar una entrada al Inventario: '))
         print(Fore.LIGHTGREEN_EX+emoji.emojize('\n 4️⃣ . 💾 Guardar los Cambios en el archivo CSV: '))
-        print(Fore.LIGHTGREEN_EX+emoji.emojize('\n 5️⃣ . 📈 Datos importantes sobre el inventario: '))
+        print(Fore.LIGHTGREEN_EX+emoji.emojize('\n 5️⃣ . 📊 Datos importantes sobre el inventario: '))
         print(Fore.LIGHTGREEN_EX+emoji.emojize('\n 6️⃣ . 🔐 Usuario y contraseña: '))
         print(Fore.LIGHTGREEN_EX+emoji.emojize('\n 8️⃣ . ⚙️ Configuración del Sistema: '))
         print(Fore.LIGHTGREEN_EX+emoji.emojize('\n 7️⃣ . 🔚 Salir '))
@@ -58,7 +57,7 @@ def menu_opciones(): # Menu de opciones que le mostramos al usuario.
         
         elif opcion == '5':
             limpiar_pantalla()
-            print(Fore.RED+emoji.emojize('📈Estos son algunos de los datos importantes del inventario'))        
+            print(Fore.LIGHTGREEN_EX+emoji.emojize('📊 Estos son algunos de los datos importantes del inventario'))        
             analizis_inv()
         
         elif opcion == '6':
