@@ -3,6 +3,8 @@ import csv , os, emoji
 import tkinter as tk
 from colorama import init,Fore,Back, Style
 import pandas as pd
+from pathlib import Path
+
 
 def limpiar_pantalla():# esta funcion limpia la terminal en ejecucion.
     os.system('cls' if os.name == 'nt' else 'clear')
@@ -319,7 +321,7 @@ def guardar_ingreso(modificacion): # me permite cuardar los datos que se almacen
 
 
 
-def analizis_inv(): # utilizando pandas me permite ver algunos datos que pueden ser de relevancia para el usuario.
+def analizis_inv(): # pandas me permite ver algunos datos que pueden ser de relevancia para el usuario.
     while True:
     
         df_inv = pd.read_csv('ferreteria.csv', encoding='utf-8')
@@ -341,5 +343,44 @@ def analizis_inv(): # utilizando pandas me permite ver algunos datos que pueden 
         
         else: 
             print('\nDigite un valor correcto')
+    
+
+    
+def exportar_inv():
+    while True:
+        descargar_inventario = input('''\n📦 Si desea descargar el inventario, digite \033[1;34m1\033[0m o presione ENTER para volver al menú principal: ''')
+
+        if descargar_inventario == "1":
+            try:
+                # Leer archivo existente
+                df = pd.read_csv("ferreteria.csv")
+                
+                # Ruta personalizada
+                ruta = 'A:/Download'
+                
+                # Verifica si la carpeta existe
+                if not os.path.exists(ruta):
+                    print(f"\033[1;33m⚠️ La carpeta {ruta} no existe. Por favor, verifica la ruta.\033[0m")
+                    return
+                
+                # Construir ruta completa del archivo
+                ruta_archivo = os.path.join(ruta, "inventario.csv")
+                df.to_csv(ruta_archivo, index=True, index_label="ID", sep=";", encoding="utf-8-sig")# el ; me ayudan a que exel me separe cada columna del inventario y no coloque todo en la columna A
+                
+                print(f"\033[1;32m✅ Archivo guardado correctamente en: {ruta_archivo}\033[0m")
+                
+            except FileNotFoundError:
+                print("\033[1;31m❌ El archivo 'ferreteria.csv' no fue encontrado.\033[0m")
+            except Exception as e:
+                print(f"\033[1;31m❌ Ocurrió un error: {e}\033[0m")
+        else:
+            print("\033[1;36m🔙 Regresando al menú principal...\033[0m")
+            break
+    
+    
+    
+    
+    
+    
     
     

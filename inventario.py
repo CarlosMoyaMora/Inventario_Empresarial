@@ -28,8 +28,8 @@ def menu_opciones(): # Menu de opciones que le mostramos al usuario.
         print(Fore.LIGHTGREEN_EX+emoji.emojize('\n 4️⃣ . 💾 Guardar los Cambios en el archivo CSV: '))
         print(Fore.LIGHTGREEN_EX+emoji.emojize('\n 5️⃣ . 📊 Datos importantes sobre el inventario: '))
         print(Fore.LIGHTGREEN_EX+emoji.emojize('\n 6️⃣ . 🔐 Usuario y contraseña: '))
-        print(Fore.LIGHTGREEN_EX+emoji.emojize('\n 8️⃣ . ⚙️ Configuración del Sistema: '))
-        print(Fore.LIGHTGREEN_EX+emoji.emojize('\n 7️⃣ . 🔚 Salir '))
+        print(Fore.LIGHTGREEN_EX+emoji.emojize('\n 7️⃣ . ⚙️ Exportar Inventario a CSV: '))
+        print(Fore.LIGHTGREEN_EX+emoji.emojize('\n 8️⃣ . 🔚 Salir '))
         
         opcion = input(Fore.LIGHTGREEN_EX+emoji.emojize(f'\n #️⃣  Ingrese el numero de la opcion que desee Realizar: '))
         
@@ -69,14 +69,15 @@ def menu_opciones(): # Menu de opciones que le mostramos al usuario.
         
         elif opcion == '7':
             limpiar_pantalla()
-            print(Fore.RED+emoji.emojize('Gracias por utilizar nuestro Sistema.'))
-            break
+            print(Fore.RED+emoji.emojize('Exportar inventario.'))
+            exportar_inv()
+            
         
         elif opcion == '8':
             limpiar_pantalla()
-            print(Fore.RED+emoji.emojize('Consulta de Inventario:'))
-            print('Bienvenido a la configuración del sistema.')
+            print(Fore.RED+emoji.emojize('Gracias por utilizar nuestro Sistema.'))
             break
+        
         
         else:
             print(Fore.RED+emoji.emojize('Consulta de Inventario:')) 
