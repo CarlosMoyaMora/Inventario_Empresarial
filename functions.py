@@ -379,8 +379,13 @@ def exportar_inv():
     
     
     
+def soporte_tecnico(): #con esta funcióm le doy una direccion para contactar a soporte tecnico.
     
+    print(Fore.LIGHTYELLOW_EX+emoji.emojize("\n📧 Para contactar a Soporte tecnico envie un correo a la siguiente direccion. "))       
     
+    print(Fore.LIGHTGREEN_EX+emoji.emojize("\nSoportemoyainvent@outlook.com")) 
     
+    salir = input(Fore.LIGHTYELLOW_EX+emoji.emojize("\n🔙  Para voler al menú principal presione ENTER... ⌨ "))     
+    return # hace que la funcion termine y regrese al menú principal...
     
     

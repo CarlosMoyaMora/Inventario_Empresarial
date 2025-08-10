@@ -22,14 +22,15 @@ def menu_opciones(): # Menu de opciones que le mostramos al usuario.
     while True:
         
         print(Fore.LIGHTGREEN_EX+emoji.emojize('\n _________________📚 Menú Principal 📚_________________')) #prints con Emojis para una visualizacion mas agradable
-        print(Fore.LIGHTGREEN_EX+emoji.emojize('\n 1️⃣ . 📋 Consultar Inventario: '))
-        print(Fore.LIGHTGREEN_EX+emoji.emojize('\n 2️⃣ . 📤 Realizar una Salida del Inventario: '))
-        print(Fore.LIGHTGREEN_EX+emoji.emojize('\n 3️⃣ . 📥 Realizar una entrada al Inventario: '))
-        print(Fore.LIGHTGREEN_EX+emoji.emojize('\n 4️⃣ . 💾 Guardar los Cambios en el archivo CSV: '))
-        print(Fore.LIGHTGREEN_EX+emoji.emojize('\n 5️⃣ . 📊 Datos importantes sobre el inventario: '))
-        print(Fore.LIGHTGREEN_EX+emoji.emojize('\n 6️⃣ . 🔐 Usuario y contraseña: '))
-        print(Fore.LIGHTGREEN_EX+emoji.emojize('\n 7️⃣ . ⚙️ Exportar Inventario a CSV: '))
-        print(Fore.LIGHTGREEN_EX+emoji.emojize('\n 8️⃣ . 🔚 Salir '))
+        print(Fore.LIGHTGREEN_EX+emoji.emojize('\n 1️⃣ . 📋  Consultar Inventario: '))
+        print(Fore.LIGHTGREEN_EX+emoji.emojize('\n 2️⃣ . 📤  Realizar una Salida del Inventario: '))
+        print(Fore.LIGHTGREEN_EX+emoji.emojize('\n 3️⃣ . 📥  Realizar una entrada al Inventario: '))
+        print(Fore.LIGHTGREEN_EX+emoji.emojize('\n 4️⃣ . 💾  Guardar los Cambios en el archivo CSV: '))
+        print(Fore.LIGHTGREEN_EX+emoji.emojize('\n 5️⃣ . 📊  Datos importantes sobre el inventario: '))
+        print(Fore.LIGHTGREEN_EX+emoji.emojize('\n 6️⃣ . 🔐  Usuario y contraseña: '))
+        print(Fore.LIGHTGREEN_EX+emoji.emojize('\n 7️⃣ . 🚀  Exportar Inventario a CSV: '))
+        print(Fore.LIGHTGREEN_EX+emoji.emojize('\n 8️⃣ . ⚙️  Soporte Tecnico: '))
+        print(Fore.LIGHTGREEN_EX+emoji.emojize('\n 9️⃣ . 🔚  Salir '))
         
         opcion = input(Fore.LIGHTGREEN_EX+emoji.emojize(f'\n #️⃣  Ingrese el numero de la opcion que desee Realizar: '))
         
@@ -69,20 +70,26 @@ def menu_opciones(): # Menu de opciones que le mostramos al usuario.
         
         elif opcion == '7':
             limpiar_pantalla()
-            print(Fore.RED+emoji.emojize('Exportar inventario.'))
+            print(Fore.RED+emoji.emojize('🚀 Exportar inventario.'))
             exportar_inv()
             
         
         elif opcion == '8':
             limpiar_pantalla()
-            print(Fore.RED+emoji.emojize('Gracias por utilizar nuestro Sistema.'))
+            print(Fore.RED+emoji.emojize('🧑‍🔧 Soporte Tecnico.'))
+            soporte_tecnico()
+            
+            
+            
+        elif opcion == '9':
+            limpiar_pantalla()
+            print(Fore.LIGHTYELLOW_EX+emoji.emojize('👋 Gracias por utilizar nuestro Sistema.'))
             break
         
         
         else:
-            print(Fore.RED+emoji.emojize('Consulta de Inventario:')) 
-            print('Opcion no Valida, Ingrese un Numero Valido')          
-                    
+            print(Fore.RED+emoji.emojize('🏴󠁢󠁳󠁥󠁸󠁿 Opcion no Valida, Ingrese un Numero Valido')) 
+          
         
 ### Aqui se va a Realizar la Ejecucion de el Codigo.
 
