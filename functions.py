@@ -4,34 +4,63 @@ import tkinter as tk
 from colorama import init,Fore,Back, Style
 import pandas as pd
 from pathlib import Path
+import tkinter as tk
+from tkinter import messagebox
 
 
 def limpiar_pantalla():# esta funcion limpia la terminal en ejecucion.
     os.system('cls' if os.name == 'nt' else 'clear')
 
 
-def menu_login(): #Menú de inicio de sesion sin interfaz
+def pantalla_inicio_sesion():
+    resultado_login = {'exitoso': False} 
 
-    while True:
-        login_df = pd.read_csv('usuarios.csv')
-        
-        usuario = input('\nEscriba el nombre de usuario: ')
-        contraseña = input('\nEscriba la contraseña: ')
-        
-        match = login_df[(login_df['USUARIO'] == usuario) & (login_df['CONTRASEÑA'] == contraseña)]    
-        if not match.empty:
-            print("Inicio de sesión exitoso...!")
-            
-            break
-                
+    try:
+        df_usuarios = pd.read_csv("usuarios.csv")
+    except FileNotFoundError:
+        messagebox.showerror("Error", "No se encontró el archivo 'usuarios.csv'")
+        return False
+
+    def verificar_login():
+        usuario_ingresado = entrada_usuario.get()
+        contrasena_ingresada = entrada_contrasena.get()
+
+        usuario_filtrado = df_usuarios[df_usuarios['USUARIO'] == usuario_ingresado]
+
+        if not usuario_filtrado.empty:
+            if usuario_filtrado.iloc[0]['CONTRASEÑA'] == contrasena_ingresada:
+                messagebox.showinfo("Login exitoso", f"¡Bienvenido, {usuario_ingresado}!")
+                resultado_login['exitoso'] = True
+                ventana.destroy()
+            else:
+                messagebox.showerror("Error", "Contraseña incorrecta")
         else:
-            print('El usuario o la contraseña no son correctos.')
-                
+            messagebox.showerror("Error", "Usuario no encontrado")
 
-  
-  
-  
-                      
+    def al_cerrar_ventana():
+        if messagebox.askokcancel("Salir", "¿Desea cerrar la aplicación?"):
+            ventana.destroy()
+
+    ventana = tk.Tk()
+    ventana.title("Inicio de Sesión")
+    ventana.geometry("300x180")
+    ventana.resizable(False, False)
+
+    ventana.protocol("WM_DELETE_WINDOW", al_cerrar_ventana)
+
+    tk.Label(ventana, text="Usuario:").pack(pady=5)
+    entrada_usuario = tk.Entry(ventana)
+    entrada_usuario.pack()
+
+    tk.Label(ventana, text="Contraseña:").pack(pady=5)
+    entrada_contrasena = tk.Entry(ventana, show="*")
+    entrada_contrasena.pack()
+
+    tk.Button(ventana, text="Iniciar sesión", command=verificar_login).pack(pady=15)
+
+    ventana.mainloop()
+
+    return resultado_login['exitoso']
                 
                 
 def config_usuario(login): #Funcion que nos permite cambiar la contraseña de un usuario o crear uno nuevo si somos administradores ......
@@ -117,48 +146,38 @@ def config_usuario(login): #Funcion que nos permite cambiar la contraseña de un
                 continue
 
 
-
-
-
-
-
-
-
-def consulta(): # esta funcion me ayuda a consultar lo que hay en el archivo csv donde guardo mis datos.
-    while True:    
+def consulta():  # Esta función permite consultar lo que hay en el archivo CSV donde se guardan los datos.
+    while True:
+        df_inventario = pd.read_csv('ferreteria.csv')  # Convierte el CSV en un DataFrame para poder trabajarlo.
         
-        df_inventario = pd.read_csv('ferreteria.csv') # me convierte mi csv a un df para poder trabajarlo.
+        pd.set_option('display.max_rows', None)        # Mostrar todas las filas
+        pd.set_option('display.max_columns', None)     # Mostrar todas las columnas
+        pd.set_option('display.width', None)           # No limitar el ancho
+        pd.set_option('display.max_colwidth', None)    # No truncar el texto de las columnas
         
-        pd.set_option('display.max_rows', None)  # Para mostrar todas las filas
-        pd.set_option('display.max_columns', None)  # Para mostrar todas las columnas
-        pd.set_option('display.width', None)  # Para no limitar el ancho
-        pd.set_option('display.max_colwidth', None)  # Para no truncar el texto de las columnas
+        print(Fore.LIGHTGREEN_EX + emoji.emojize('\n📦 Inventario actual:\n'))
+        print(Fore.WHITE + df_inventario.to_string(index=False))
         
-        print('\n', df_inventario)
+        # Consultamos por un artículo específico que estemos buscando
+        consulta_nombre = input(Fore.CYAN + emoji.emojize('\n🔍 Ingrese el nombre del artículo que desea consultar: ')).upper()
         
-        #Consultamos por un articulo en especifico que estemos buscando
-        consulta_nombre = str(input('\nIngrese el nombre del articulo que desea consultar: ').upper())
         if consulta_nombre in df_inventario['NOMBRE'].values:
-            articulo = df_inventario[df_inventario['NOMBRE'] == consulta_nombre ]
-            print(articulo)
-            
+            articulo = df_inventario[df_inventario['NOMBRE'] == consulta_nombre]
+            print(Fore.LIGHTYELLOW_EX + emoji.emojize('\n✅ Artículo encontrado:\n'))
+            print(Fore.WHITE + articulo.to_string(index=False))
         else:
-            ('El articulo no esta en el inventario.')    
+            print(Fore.RED + emoji.emojize('\n❌ El artículo no está en el inventario.'))
         
-        #codigo que nos da la opcion de salir o repetir
-        repetir = input('\nDesea consultar otro articulo? S/N : ').upper()
+        # Preguntamos si desea hacer otra consulta
+        repetir = input(Fore.CYAN + emoji.emojize('\n🔁 ¿Desea consultar otro artículo? (S/N): ')).upper()
         if repetir == 'S':
-            consulta()
+            consulta()  # Llamada recursiva (podría mejorarse usando solo el bucle)
         elif repetir == 'N':
+            print(Fore.GREEN + emoji.emojize('\n👋 Saliendo del módulo de consulta...'))
             break
-        else: 
-            print('Ingrese un numero correcto')
+        else:
+            print(Fore.RED + emoji.emojize('\n⚠️ Opción no válida. Intente nuevamente.'))
             
-
-
-
-
-
 
 def salida_inv():
     limpiar_pantalla()
@@ -221,11 +240,6 @@ def salida_inv():
             
         print(Fore.LIGHTRED_EX + df_inventario.to_string() + Style.RESET_ALL)
          
-
-
-
-
-
        
 def entrada_inv(lista_articulos): # me permite crear una entrada al inventario con lo que se desee ingresar.
     
@@ -287,38 +301,47 @@ def entrada_inv(lista_articulos): # me permite crear una entrada al inventario c
                 break
             else: 
                 print('Ingrese una letra correcta, s/n: ')       
-                            
-        
- 
- 
- 
- 
-        
+                                   
 
-def guardar_ingreso(modificacion): # me permite cuardar los datos que se almacenan en las listas ingreso y salida
+def guardar_ingreso(modificacion):
     if not modificacion:
         print('No hay ingresos que guardar en el CSV')
-    else:
-        if os.path.exists('ferreteria.csv'):
-            #si el archivo existe agrego Append  'A'
-            with open('ferreteria.csv','a',newline='',encoding='utf-8') as archivo:
-                guardar = csv.DictWriter(archivo,fieldnames=['NOMBRE','MARCA','CANTIDAD','PRECIO'])
-                guardar.writerows(modificacion)        
-        else: #Si no existe abro en modo escritura 'W'
-            with open('ferreteria.csv','w',newline='',encoding='utf-8') as archivo:
-                guardar = csv.DictWriter(archivo,fieldnames=['NOMBRE','MARCA','CANTIDAD','PRECIO'])
-                guardar.writeheader()
-                guardar.writerows(modificacion)
-                
-        #Limpio las ventas en memoria y muestro el guardado exitoso                
-        modificacion = []
-        print('Datos guardados exitosamente!') 
-        
+        return
 
+    archivo_csv = 'ferreteria.csv'
+    fieldnames = ['NOMBRE', 'MARCA', 'CANTIDAD', 'PRECIO']
+    datos_existentes = []
 
+    # Leer datos existentes si el archivo ya existe
+    if os.path.exists(archivo_csv):
+        with open(archivo_csv, 'r', newline='', encoding='utf-8') as archivo:
+            lector = csv.DictReader(archivo)
+            datos_existentes = list(lector)
+   
+    nuevos_datos = modificacion
 
+    # Crear un diccionario con claves compuestas (NOMBRE, MARCA) para acceso rápido
+    datos_dict = {(item['NOMBRE'], item['MARCA']): item for item in datos_existentes}
 
+    # actualiza o agrega los nuevos datos, esto soluciona la duplicacio
+    for nuevo in nuevos_datos:
+        clave = (nuevo['NOMBRE'], nuevo['MARCA'])
+        if clave in datos_dict:
+            # Actualizar los valores existentes
+            datos_dict[clave]['CANTIDAD'] = nuevo['CANTIDAD']
+            datos_dict[clave]['PRECIO'] = nuevo['PRECIO']
+        else:
+            # Agregar nuevo registro
+            datos_dict[clave] = nuevo
 
+    # Escribir todo nuevamente al archivo
+    with open(archivo_csv, 'w', newline='', encoding='utf-8') as archivo:
+        escritor = csv.DictWriter(archivo, fieldnames=fieldnames)
+        escritor.writeheader()
+        escritor.writerows(datos_dict.values())
+
+    modificacion.clear()
+    print('Datos guardados exitosamente.')
 
 
 def analizis_inv(): # pandas me permite ver algunos datos que pueden ser de relevancia para el usuario.
@@ -344,7 +367,6 @@ def analizis_inv(): # pandas me permite ver algunos datos que pueden ser de rele
         else: 
             print('\nDigite un valor correcto')
     
-
     
 def exportar_inv():
     while True:
@@ -377,8 +399,7 @@ def exportar_inv():
             print("\033[1;36m🔙 Regresando al menú principal...\033[0m")
             break
     
-    
-    
+        
 def soporte_tecnico(): #con esta funcióm le doy una direccion para contactar a soporte tecnico.
     
     print(Fore.LIGHTYELLOW_EX+emoji.emojize("\n📧 Para contactar a Soporte tecnico envie un correo a la siguiente direccion. "))       
@@ -389,3 +410,12 @@ def soporte_tecnico(): #con esta funcióm le doy una direccion para contactar a 
     return # hace que la funcion termine y regrese al menú principal...
     
     
+def cerrar_sesion():
+    respuesta = messagebox.askyesno("Cerrar sesión", "¿Desea cerrar sesión?")
+    
+    if respuesta:
+        login_exitoso = pantalla_inicio_sesion()
+        return login_exitoso  # True si el login fue exitoso, False si no
+    else:
+        print("Volviendo al menú principal...")
+        return True  # Se queda en el menú
