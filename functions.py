@@ -12,22 +12,22 @@ def limpiar_pantalla():# esta funcion limpia la terminal en ejecucion.
     os.system('cls' if os.name == 'nt' else 'clear')
 
 
-def pantalla_inicio_sesion():
+def pantalla_inicio_sesion(): #funcion que invoca la ventana para inicio de sesion
     resultado_login = {'exitoso': False} 
 
     try:
-        df_usuarios = pd.read_csv("usuarios.csv")
+        df_usuarios = pd.read_csv("usuarios.csv")# dataframe de el CSv de usuarios
     except FileNotFoundError:
         messagebox.showerror("Error", "No se encontró el archivo 'usuarios.csv'")
         return False
 
-    def verificar_login():
+    def verificar_login(): #Funcion que verfica el login ingresado por el usuario. (Debe coincidir la contraseña con el usuario)
         usuario_ingresado = entrada_usuario.get()
         contrasena_ingresada = entrada_contrasena.get()
 
-        usuario_filtrado = df_usuarios[df_usuarios['USUARIO'] == usuario_ingresado]
+        usuario_filtrado = df_usuarios[df_usuarios['USUARIO'] == usuario_ingresado]# variable que almacena y comprueba que el usuario ingresado sea el mismo que se encuentra en el CSV
 
-        if not usuario_filtrado.empty:
+        if not usuario_filtrado.empty: # Esta condición lo que hace es verificar si se ingresó un valor, esto soluciona el echo de cerrar la ventana y que el codigo continue funcionando
             if usuario_filtrado.iloc[0]['CONTRASEÑA'] == contrasena_ingresada:
                 messagebox.showinfo("Login exitoso", f"¡Bienvenido, {usuario_ingresado}!")
                 resultado_login['exitoso'] = True
@@ -37,7 +37,7 @@ def pantalla_inicio_sesion():
         else:
             messagebox.showerror("Error", "Usuario no encontrado")
 
-    def al_cerrar_ventana():
+    def al_cerrar_ventana(): #esta función me da un mensaje cuando cierro la ventana con la X
         if messagebox.askokcancel("Salir", "¿Desea cerrar la aplicación?"):
             ventana.destroy()
 
@@ -60,15 +60,19 @@ def pantalla_inicio_sesion():
 
     ventana.mainloop()
 
-    return resultado_login['exitoso']
+    return resultado_login['exitoso']#Este return es el esperado por el codigo principal, en caso de obtener un false, el codigo no se ejecuta mas y se cierra el programa.
                 
                 
 def config_usuario(login): #Funcion que nos permite cambiar la contraseña de un usuario o crear uno nuevo si somos administradores ......
+    
     
     df_usuarios = pd.read_csv("usuarios.csv")       #pasamos la base de datos de Usuario a un Dataframe    
 
     while True:
         try:
+            
+            limpiar_pantalla()
+            
             print(Fore.LIGHTGREEN_EX+emoji.emojize('\n1️⃣  . Crear un nuevo usuario. '))
             print(Fore.LIGHTGREEN_EX+emoji.emojize('\n2️⃣  . Cambiar contraseña.'))
             print(Fore.LIGHTGREEN_EX+emoji.emojize('\n3️⃣  . Volver al menú principal. '))
@@ -79,34 +83,36 @@ def config_usuario(login): #Funcion que nos permite cambiar la contraseña de un
             
             limpiar_pantalla()
             
-            if opcion_usuario == '1':
+            if opcion_usuario == '1':# si el usuario selecciona 1, la condiccion lo lleva a ingresar el usuario Admin
                 
-                usuario_admin = str(input('\n🔹 Ingrese su usuario: '))
+                usuario_admin = str(input('\n🔹 Ingrese el usuario de Administrador: '))
                 
-                contraseña_admin = str(input('\n🔹 Ingrese la contraseña: '))
+                contraseña_admin = str(input('\n🔹 Ingrese la contraseña de Administrador: '))
                 
+                #si el usuario y contraseña son de admin, se guardan en la variable acceso correcto
                 acceso_correcto = ((df_usuarios['USUARIO'] == usuario_admin) &  (df_usuarios['CONTRASEÑA']== contraseña_admin)).any()
                 
-                
+               
+                #Esta condicion comprueba que el usuario almacenado sea el mismo que el registrado
                 if acceso_correcto and usuario_admin == 'Carlosmoya15':
                     
                     user_nuevo = str(input(Fore.LIGHTGREEN_EX+emoji.emojize('\n🔹 Ingrese nuevo usuario que quiere crear: ')))
-                    contra_nuevo = str(input(Fore.LIGHTGREEN_EX+emoji.emojize('\n🔹 Ingrese la contraseña del nuevo usuario')))
+                    contra_nuevo = str(input(Fore.LIGHTGREEN_EX+emoji.emojize('\n🔹 Ingrese la contraseña del nuevo usuario: ')))
                     
                     nuevo_usuario = {'USUARIO': user_nuevo, 'CONTRASEÑA': contra_nuevo}
                     
-                    nuevo_df = pd.DataFrame([nuevo_usuario])
+                    nuevo_df = pd.DataFrame([nuevo_usuario])#crea un nuevo usuario y lo almacena en el df 
 
-                    archivo_csv = 'usuarios.csv'
+                    archivo_csv = 'usuarios.csv'#obtenemos el csv original
 
                     
-                    if os.path.exists(archivo_csv):# Si el archivo ya existe, lo abrimos y agregamos
+                    if os.path.exists(archivo_csv):# Si el archivo ya existe, lo abre y agrega el nuevo usuario
                         df_usuarios = pd.read_csv(archivo_csv)
                         df_usuarios = pd.concat([df_usuarios, nuevo_df], ignore_index=True)
                     else:
-                        df_usuarios = nuevo_df
+                        df_usuarios = nuevo_df #de lo contrario redefinimos el dataframe usuarios
 
-                    
+                    #aquí creariamos un nuevo CSV
                     df_usuarios.to_csv(archivo_csv, index=False)# Guardar CSV sin índice
                     
                     limpiar_pantalla()
@@ -115,7 +121,7 @@ def config_usuario(login): #Funcion que nos permite cambiar la contraseña de un
                     
                   
                 
-            elif opcion_usuario == '2':
+            elif opcion_usuario == '2':#condicion if que ejecuta la segunda eleccion de usuario
                 
                 usuario = str(input(Fore.LIGHTGREEN_EX+emoji.emojize('\n🔹Escriba el nombre de usuario: ')))
                 contraseña = str(input(Fore.LIGHTGREEN_EX+emoji.emojize('\n🔹Escriba la contraseña: ')))
@@ -124,17 +130,17 @@ def config_usuario(login): #Funcion que nos permite cambiar la contraseña de un
                 
                 if ((df_usuarios['USUARIO'] == usuario) & (df_usuarios['CONTRASEÑA'] == contraseña)).any():#Compara si los datos ingresados son iguales a los datos en el df.
                     
-                    contraseña_nueva = input('Digite la nueva contraseña')
+                    contraseña_nueva = input('\n   Digite la nueva contraseña: ')#almacenamos la nueva contraseña del usuario
                     
                     df_usuarios.loc[df_usuarios['USUARIO']==usuario,'CONTRASEÑA'] = contraseña_nueva #cambia el valor de la contraseña en el dataframe
                     
-                    df_usuarios.to_csv('usuarios.csv', index=False)#sobre escribe el df completo
+                    df_usuarios.to_csv('usuarios.csv', index=False)#sobre escribe el df completo en el csv
                     
                     
                     
                     print(Fore.LIGHTGREEN_EX+emoji.emojize('\n✅Contraseña modificada exitosamente....')) 
             
-            elif opcion_usuario == '3':
+            elif opcion_usuario == '3':#esta opcion me devuelve al menú
                 break
                 
 
@@ -182,130 +188,120 @@ def consulta():  # Esta función permite consultar lo que hay en el archivo CSV 
 def salida_inv():
     limpiar_pantalla()
     
-    df_inventario = pd.read_csv('ferreteria.csv', encoding='utf-8')# convertimos el Csv del inventario en un DFrame de Pandas
+    df_inventario = pd.read_csv('ferreteria.csv', encoding='utf-8')  # Convertimos el CSV del inventario en un DataFrame de Pandas
     
-    pd.set_option('display.max_rows', None)  # Para mostrar todas las filas
-    pd.set_option('display.max_columns', None)  # Para mostrar todas las columnas
-    pd.set_option('display.width', None)  # Para no limitar el ancho
+    pd.set_option('display.max_rows', None)      # Para mostrar todas las filas
+    pd.set_option('display.max_columns', None)   # Para mostrar todas las columnas
+    pd.set_option('display.width', None)         # Para no limitar el ancho
     pd.set_option('display.max_colwidth', None)  # Para no truncar el texto de las columnas
     
     print(Fore.LIGHTRED_EX + df_inventario.to_string() + Style.RESET_ALL)
     
-    while True: #inicio del Bucle
+    while True:  # Inicio del bucle
         
-        init() 
+        init()
         
-        print(Fore.LIGHTGREEN_EX+emoji.emojize('\nPara Hacer una Salida del Inventario ingrese el numero 1: ') + Style.RESET_ALL)
-        print(Fore.LIGHTGREEN_EX+emoji.emojize('Para Volver al Menú Principal ingrese el numero 2: ') + Style.RESET_ALL)
+        print(Fore.LIGHTGREEN_EX + emoji.emojize('\n📦 Para hacer una salida del inventario, ingrese el número 1: ') + Style.RESET_ALL)
+        print(Fore.LIGHTGREEN_EX + emoji.emojize('🏠 Para volver al menú principal, ingrese el número 2: ') + Style.RESET_ALL)
         
-        accion = input((Fore.LIGHTGREEN_EX+emoji.emojize('\nQue desea hacer: ')))
+        accion = input(Fore.LIGHTGREEN_EX + emoji.emojize('\n🔍 ¿Qué desea hacer?: ') + Style.RESET_ALL)
         
         if accion == '1':
             try:
-                nombre_art = input((Fore.LIGHTGREEN_EX+emoji.emojize('\nIngrese el nombre del Articulo: '))).upper()
-                marca = input((Fore.LIGHTGREEN_EX+emoji.emojize('ingrese la Marca del fabricante: '))).upper()
-                cantidad = int(input((Fore.LIGHTGREEN_EX+emoji.emojize('Digite la cantidad que deseea sacar del Sistema: ')+ Style.RESET_ALL)))
+                nombre_art = input(Fore.LIGHTGREEN_EX + emoji.emojize('\n🛠️ Ingrese el nombre del artículo: ') + Style.RESET_ALL).upper()
+                marca = input(Fore.LIGHTGREEN_EX + emoji.emojize('🏷️ Ingrese la marca del fabricante: ') + Style.RESET_ALL).upper()
+                cantidad = int(input(Fore.LIGHTGREEN_EX + emoji.emojize('➖ Digite la cantidad que desea sacar del sistema: ') + Style.RESET_ALL))
                 
             except ValueError:
-                print(Fore.LIGHTGREEN_EX+emoji.emojize('error: ingrese una opcion valida: ')+ Style.RESET_ALL)  
+                print(Fore.LIGHTRED_EX + emoji.emojize('❌ Error: ingrese una opción válida.') + Style.RESET_ALL)  
                 continue
             
-            # toma el nombre ingresado y en caso de estar  en el inventario nos 
+            # Toma el nombre ingresado y en caso de estar en el inventario...
             if nombre_art in df_inventario['NOMBRE'].values:
-                df_inventario.loc[df_inventario['NOMBRE']==nombre_art,'CANTIDAD'] -= cantidad# resta la cantidad ingresada
+                df_inventario.loc[df_inventario['NOMBRE'] == nombre_art, 'CANTIDAD'] -= cantidad  # Resta la cantidad ingresada
                 
             else:
-                print('\nEl Articulo no se encuentra en sistema: ')
-                
-                # almacena directamente la nueva cantidad de los articulos
-                df_inventario.to_csv('ferreteria.csv', index=False)
-                print(df_inventario)
-
-            print(Fore.LIGHTGREEN_EX+emoji.emojize('\n💾 Cambios guardados con exito.'))
+                print(Fore.LIGHTRED_EX + emoji.emojize('\n❗ El artículo no se encuentra en el sistema.') + Style.RESET_ALL)
             
-            repetir = input('Desea hacer otra Salida? s/n? : ').upper() # damos la opcion de continuar o salir
+            # Almacena directamente la nueva cantidad de los artículos
+            df_inventario.to_csv('ferreteria.csv', index=False)
+            print(Fore.LIGHTCYAN_EX + df_inventario.to_string() + Style.RESET_ALL)
+
+            print(Fore.LIGHTGREEN_EX + emoji.emojize('\n💾 Cambios guardados con éxito.') + Style.RESET_ALL)
+            
+            repetir = input(Fore.LIGHTGREEN_EX + '🔁 ¿Desea hacer otra salida? (S/N): ' + Style.RESET_ALL).upper()
             
             if repetir == 'S':
-                print('\n---Salida de otro articulo---')
+                print(Fore.LIGHTYELLOW_EX + '\n---Salida de otro artículo---' + Style.RESET_ALL)
             
             elif repetir == 'N':
-                print('Volviendo al menú principal')
+                print(Fore.LIGHTBLUE_EX + '↩️ Volviendo al menú principal...' + Style.RESET_ALL)
                 break
             else: 
-                print('Ingrese una letra correcta, s/n: ')  
+                print(Fore.LIGHTRED_EX + '⚠️ Ingrese una letra correcta (S/N).' + Style.RESET_ALL)
         
         elif accion == '2':
+            print(Fore.LIGHTBLUE_EX + '↩️ Regresando al menú principal...' + Style.RESET_ALL)
             break     
-            
-            
+        
         print(Fore.LIGHTRED_EX + df_inventario.to_string() + Style.RESET_ALL)
+
          
        
-def entrada_inv(lista_articulos): # me permite crear una entrada al inventario con lo que se desee ingresar.
+def entrada_inv(lista_articulos):  # Permite crear una entrada al inventario con lo que se desee ingresar.
     
     df_inventario = pd.read_csv('ferreteria.csv', encoding='utf-8')
     
-    pd.set_option('display.max_rows', None)  # Para mostrar todas las filas
-    pd.set_option('display.max_columns', None)  # Para mostrar todas las columnas
-    pd.set_option('display.width', None)  # Para no limitar el ancho
+    pd.set_option('display.max_rows', None)      # Para mostrar todas las filas
+    pd.set_option('display.max_columns', None)   # Para mostrar todas las columnas
+    pd.set_option('display.width', None)         # Para no limitar el ancho
     pd.set_option('display.max_colwidth', None)  # Para no truncar el texto de las columnas
     
-    print(df_inventario)
+    print(Fore.LIGHTCYAN_EX + df_inventario.to_string() + Style.RESET_ALL)
     
-    while True:    
+    while True:
+        try:  # Solicita los datos que el usuario quiere ingresar al sistema
+            nombre_art = input(Fore.LIGHTGREEN_EX + emoji.emojize('\n🛠️ Ingrese el nombre del artículo: ') + Style.RESET_ALL).upper()
+            marca = input(Fore.LIGHTGREEN_EX + emoji.emojize('🏷️ Ingrese la marca del fabricante: ') + Style.RESET_ALL).upper()
+            cantidad = int(input(Fore.LIGHTGREEN_EX + emoji.emojize('➕ Digite la cantidad que desea ingresar al sistema: ') + Style.RESET_ALL))
+            precio = float(input(Fore.LIGHTGREEN_EX + emoji.emojize('💰 Ingrese el valor del artículo en colones: ') + Style.RESET_ALL))
         
-        try: # solicito los datos que el usuario quiere ingresar al sistema.
-            nombre_art = input('Ingrese el nombre del Articulo: ').upper()
-            marca = input('ingrese la Marca del fabricante: ').upper()
-            cantidad = int(input('Digite la cantidad que desea ingresar al Sistema: '))
-            precio = float(input('Ingrese el Valor del articulo en colones: '))
-            
         except ValueError:
-                print('El valor no es correcto, por favor intentelo nuevamente!')
-                continue    
-        
-        #tomamos el nombre ingresado y validamos si se encuentra en el inventario
-        if nombre_art in df_inventario['NOMBRE'].values: 
-            df_inventario.loc[df_inventario['NOMBRE']==nombre_art,'CANTIDAD'] += cantidad #si está en el inventario sumamos la cantidad a la ya existente
-            df_inventario.to_csv('ferreteria.csv', index=False) # guardamos la modificacion en el archivo csv
-            print(df_inventario)
-            print('\nInventario Actualizado. ')
-        
-            # damos la opcion de repetir
-            repetir = input('Desea hacer otro ingreso? s/n? : ').upper() # damos la opcion de continuar o salir
-            
-            if repetir == 'S':
-                print('\n---Ingresando otro articulo---')
-            
-            elif repetir == 'N':
-                print('Volviendo al menú principal')
-                break
-            else: 
-                print('Ingrese una letra correcta, s/n: ')
+            print(Fore.LIGHTRED_EX + emoji.emojize('❌ El valor no es correcto, por favor inténtelo nuevamente.') + Style.RESET_ALL)
+            continue    
 
-        #en caso de no coincidir el nombre con el brindado, hacemos el ingreso de un nuevo articulo a la variable
-        if nombre_art not in df_inventario['NOMBRE'].values[0]: 
-            modificacion = {'NOMBRE': nombre_art, 'MARCA': marca, 'CANTIDAD':cantidad, 'PRECIO':precio}
-            
+        # Verificamos si el artículo ya está en el inventario
+        if nombre_art in df_inventario['NOMBRE'].values:
+            df_inventario.loc[df_inventario['NOMBRE'] == nombre_art, 'CANTIDAD'] += cantidad  # Si existe, sumamos la cantidad
+            df_inventario.to_csv('ferreteria.csv', index=False)  # Guardamos la modificación
+            print(Fore.LIGHTCYAN_EX + df_inventario.to_string() + Style.RESET_ALL)
+            print(Fore.LIGHTGREEN_EX + emoji.emojize('\n✅ Inventario actualizado.') + Style.RESET_ALL)
+        
+        else:
+            # Si no existe, registramos un nuevo artículo (sin guardar en CSV, requiere confirmación en menú principal)
+            modificacion = {'NOMBRE': nombre_art, 'MARCA': marca, 'CANTIDAD': cantidad, 'PRECIO': precio}
             lista_articulos.append(modificacion)
-            
-            print(modificacion)
-            print('\nNo olvides guardar los datos en el menú principal')# en este metodo se necesita usar el guardado del menú principal
-            
-            repetir = input('Desea hacer otro ingreso? s/n? : ').upper() # damos la opcion de continuar o salir
-            if repetir == 'S':
-                print('\n---Ingresando otro articulo---')
-            
-            elif repetir == 'N':
-                print('Volviendo al menú principal')
-                break
-            else: 
-                print('Ingrese una letra correcta, s/n: ')       
+            print(Fore.LIGHTYELLOW_EX + emoji.emojize('\n🆕 Artículo nuevo registrado (no guardado en CSV):') + Style.RESET_ALL)
+            print(Fore.LIGHTCYAN_EX + str(modificacion) + Style.RESET_ALL)
+            print(Fore.LIGHTMAGENTA_EX + emoji.emojize('📌 No olvides guardar los datos en el menú principal.') + Style.RESET_ALL)
+
+        # Opción de repetir
+        repetir = input(Fore.LIGHTGREEN_EX + '🔁 ¿Desea hacer otro ingreso? (S/N): ' + Style.RESET_ALL).upper()
+        
+        if repetir == 'S':
+            print(Fore.LIGHTYELLOW_EX + '\n---Ingresando otro artículo---' + Style.RESET_ALL)
+        
+        elif repetir == 'N':
+            print(Fore.LIGHTBLUE_EX + '↩️ Volviendo al menú principal...' + Style.RESET_ALL)
+            break
+        else: 
+            print(Fore.LIGHTRED_EX + '⚠️ Ingrese una letra correcta (S/N).' + Style.RESET_ALL)
+     
                                    
 
-def guardar_ingreso(modificacion):
+def guardar_ingreso(modificacion): 
     if not modificacion:
-        print('No hay ingresos que guardar en el CSV')
+        print(Fore.LIGHTRED_EX + emoji.emojize('⚠️ No hay ingresos que guardar en el CSV.') + Style.RESET_ALL)
         return
 
     archivo_csv = 'ferreteria.csv'
@@ -323,7 +319,7 @@ def guardar_ingreso(modificacion):
     # Crear un diccionario con claves compuestas (NOMBRE, MARCA) para acceso rápido
     datos_dict = {(item['NOMBRE'], item['MARCA']): item for item in datos_existentes}
 
-    # actualiza o agrega los nuevos datos, esto soluciona la duplicacio
+    # Actualiza o agrega los nuevos datos, esto soluciona la duplicación
     for nuevo in nuevos_datos:
         clave = (nuevo['NOMBRE'], nuevo['MARCA'])
         if clave in datos_dict:
@@ -341,32 +337,40 @@ def guardar_ingreso(modificacion):
         escritor.writerows(datos_dict.values())
 
     modificacion.clear()
-    print('Datos guardados exitosamente.')
+    print(Fore.LIGHTGREEN_EX + emoji.emojize('💾 Datos guardados exitosamente.') + Style.RESET_ALL)
 
 
-def analizis_inv(): # pandas me permite ver algunos datos que pueden ser de relevancia para el usuario.
+
+def analisis_inv():  # Pandas permite ver algunos datos que pueden ser de relevancia para el usuario.
     while True:
-    
         df_inv = pd.read_csv('ferreteria.csv', encoding='utf-8')
-        
-        print('\nLos articulos con mayor stock son: ')
-        print('\n',df_inv[ df_inv['CANTIDAD'] == df_inv['CANTIDAD'].max()]) 
-        print('\nLos articulos con menor stock son: ') 
-        print('\n',df_inv[df_inv['CANTIDAD'] == df_inv['CANTIDAD'].min()])
-        print('\nLos articulos de mayor valor son: ')
-        print('\n',df_inv[df_inv['PRECIO'] == df_inv['PRECIO'].max()])
-        print('\nLos articulos de menor valor son: ')
-        print('\n',df_inv[df_inv['PRECIO'] == df_inv['PRECIO'].min()])
-        
 
-        salir = input('\nPara salir digite 1: ')
-        
+        print(Fore.LIGHTYELLOW_EX + emoji.emojize('\n📦 Artículos con mayor stock:') + Style.RESET_ALL)
+        print(Fore.LIGHTCYAN_EX, df_inv[df_inv['CANTIDAD'] == df_inv['CANTIDAD'].max()], Style.RESET_ALL)
+
+        print(Fore.LIGHTYELLOW_EX + emoji.emojize('\n📉 Artículos con menor stock:') + Style.RESET_ALL)
+        print(Fore.LIGHTCYAN_EX, df_inv[df_inv['CANTIDAD'] == df_inv['CANTIDAD'].min()], Style.RESET_ALL)
+
+        print(Fore.LIGHTYELLOW_EX + emoji.emojize('\n💸 Artículos de mayor valor:') + Style.RESET_ALL)
+        print(Fore.LIGHTCYAN_EX, df_inv[df_inv['PRECIO'] == df_inv['PRECIO'].max()], Style.RESET_ALL)
+
+        print(Fore.LIGHTYELLOW_EX + emoji.emojize('\n💰 Artículos de menor valor:') + Style.RESET_ALL)
+        print(Fore.LIGHTCYAN_EX, df_inv[df_inv['PRECIO'] == df_inv['PRECIO'].min()], Style.RESET_ALL)
+
+        # Datos adicionales de utilidad
+        print(Fore.LIGHTYELLOW_EX + emoji.emojize('\n📊 Promedio de precios en inventario: ') + Style.RESET_ALL, end='')
+        print(Fore.LIGHTMAGENTA_EX + f"₡{df_inv['PRECIO'].mean():,.2f}" + Style.RESET_ALL)
+
+        print(Fore.LIGHTYELLOW_EX + emoji.emojize('\n📦 Total de artículos registrados: ') + Style.RESET_ALL, end='')
+        print(Fore.LIGHTMAGENTA_EX + str(df_inv['NOMBRE'].nunique()) + Style.RESET_ALL)
+
+        salir = input(Fore.LIGHTGREEN_EX + emoji.emojize('\n\n🔚 Para salir, digite 1: ') + Style.RESET_ALL)
+
         if salir == '1':
             break
-        
-        else: 
-            print('\nDigite un valor correcto')
-    
+        else:
+            print(Fore.LIGHTRED_EX + emoji.emojize('⚠️ Por favor, digite un valor válido.') + Style.RESET_ALL)
+
     
 def exportar_inv():
     while True:
@@ -418,4 +422,4 @@ def cerrar_sesion():
         return login_exitoso  # True si el login fue exitoso, False si no
     else:
         print("Volviendo al menú principal...")
-        return True  # Se queda en el menú
+        return True  # Se queda en el menú 

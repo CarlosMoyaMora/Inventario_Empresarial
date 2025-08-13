@@ -30,7 +30,7 @@ def menu_opciones():  # Menú de opciones que le mostramos al usuario.
         print(Fore.LIGHTGREEN_EX + emoji.emojize('\n 7️⃣ . 🚀  Exportar Inventario a CSV: '))
         print(Fore.LIGHTGREEN_EX + emoji.emojize('\n 8️⃣ . ⚙️  Soporte Técnico: '))
         print(Fore.LIGHTGREEN_EX + emoji.emojize('\n 9️⃣ . 🏴  Cerrar Sesión: '))
-        print(Fore.LIGHTGREEN_EX + emoji.emojize('\n 🔟 . 🔚  Salir del Programa '))
+        print(Fore.LIGHTGREEN_EX + emoji.emojize('\n 🔟 . 🔚  Salir del Programa. '))
         
         opcion = input(Fore.LIGHTGREEN_EX + emoji.emojize(f'\n #️⃣  Ingrese el número de la opción que desea realizar: '))
         
@@ -58,7 +58,7 @@ def menu_opciones():  # Menú de opciones que le mostramos al usuario.
         elif opcion == '5':
             limpiar_pantalla()
             print(Fore.LIGHTGREEN_EX + emoji.emojize('📊 Estos son algunos de los datos importantes del inventario'))        
-            analizis_inv()
+            analisis_inv()
         
         elif opcion == '6':
             limpiar_pantalla()
